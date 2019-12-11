@@ -4,12 +4,13 @@ import { NgModule } from '@angular/core';
 import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
+import { Page404Component } from './components/page404/page404.component';
 
 const APP_ROUTES: Routes = [
-    { path: 'home', component: HomeComponent },
+    { path: '', component: HomeComponent },
     { path: 'about', component: AboutComponent },
-    { path: 'heroes', component: HeroesComponent },
-    { path: '**', redirectTo: 'home' }
+    { path: 'heroes', component: HeroesComponent },    
+    { path: '**', component: Page404Component }
 
     //{ path: 'path/:routeParam', component: MyComponent },
     //{ path: 'staticPath', component: ... },
@@ -19,7 +20,7 @@ const APP_ROUTES: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forChild(APP_ROUTES)],
+    imports: [RouterModule.forRoot(APP_ROUTES)],
     exports: [RouterModule]
 })
 export class AppRoutingModule {}

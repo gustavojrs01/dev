@@ -6,6 +6,7 @@ import { AppRoutingModule } from "./app.routes";
 
 
 //Servicios
+import { HeroesService } from './services/heroes.service';
 
 
 //Componentes
@@ -15,6 +16,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AboutComponent } from './components/about/about.component';
 import { HeroesComponent } from './components/heroes/heroes.component';
 import { Page404Component } from './components/page404/page404.component';
+import { HeroeComponent } from './components/heroe/heroe.component';
 
 @NgModule({
   declarations: [
@@ -23,13 +25,14 @@ import { Page404Component } from './components/page404/page404.component';
     HomeComponent,
     AboutComponent,
     HeroesComponent,
-    Page404Component
+    Page404Component,
+    HeroeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [HeroesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

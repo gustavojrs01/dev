@@ -1,0 +1,44 @@
+<h1 class="text-center">Pipes</h1>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Variable</th>
+      <th scope="col">Pipe</th>
+      <th scope="col">Producto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{nombre}}</td>
+      <td>lowercase</td>
+      <td>{{nombre | lowercase}}</td>
+    </tr>
+    <tr>
+      <td>{{nombre}}</td>
+      <td>uppercase</td>
+      <td>{{nombre | uppercase}}</td>
+    </tr>
+    <tr>
+      <td>{{nombre}}</td>
+      <td>slice:3</td>
+      <td>{{nombre | slice:3}}</td>
+    </tr>
+    <tr>
+      <td>{{arreglo}}</td>
+      <td>slice:3</td>
+      <td>{{arreglo | slice:1:5}}</td>
+    </tr>
+    <h3>Decimal Pipe</h3>
+    <tr>
+      <td>{{PI}}</td>
+      <td>Number</td>
+      <td>{{PI | number}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Slice con lista</h2>
+<ul>
+  <li *ngFor="let item of arreglo | slice:1:7">{{item}}</li>
+</ul>
+

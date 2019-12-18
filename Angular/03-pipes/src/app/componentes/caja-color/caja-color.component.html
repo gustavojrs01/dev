@@ -1,0 +1,10 @@
+<div class="caja-main">
+    <div class="caja-color m-5 animated fadeIn" id="cajaColor">
+    </div>
+    <button class="m-5 btn-outline-primary btn-block btn" (click)="setColor();">Cambiar color</button>
+    <ul>
+        <li *ngFor="let dia of dias; let i = index">{{dia}}</li>
+    </ul>   
+    <button class="m-5 btn-outline-primary btn-block btn" (click)="agregarDia();">Agregar dia</button>
+</div>
+

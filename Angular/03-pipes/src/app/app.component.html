@@ -1,3 +1,5 @@
+<router-outlet></router-outlet>
+<iframe width="560" height="315" [src]="video | domseguro:'https://www.youtube.com/embed/'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <div class="main-container">
   <h1 class="text-center">Pipes</h1>
   <table class="table">
@@ -69,6 +71,11 @@
         <td>{{hoy}}</td>
         <td>date personalizado</td>
         <td>{{hoy | date}}</td>
+      </tr>
+      <tr>
+        <td>{{nombre}}</td>
+        <td>pipe personalizado</td>
+        <td>{{nombre | capitalizado}}</td>
       </tr>
     </tbody>
   </table>

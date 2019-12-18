@@ -1,0 +1,17 @@
+.caja-color{    
+    background-color: aqua;
+    width: 200px;
+    height: 200px;
+}
+
+.caja-main{
+    width: 200px;
+}
+
+.ytp-chrome-top{
+    display: none;
+}
+
+.vp-outro-wrapper {
+    display: none;
+}

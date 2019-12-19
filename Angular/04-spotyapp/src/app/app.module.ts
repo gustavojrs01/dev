@@ -7,6 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/search/search.component';
 import { ArtistaComponent } from './components/artista/artista.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
+import { NgxSoapModule } from "ngx-soap";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NavbarComponent } from './components/shared/navbar/navbar.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    NgxSoapModule,
     AppRoutingModule
   ],
   providers: [],

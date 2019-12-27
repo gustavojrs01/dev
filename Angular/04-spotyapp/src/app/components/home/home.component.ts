@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgxSoapService, Client, ISoapMethodResponse } from "ngx-soap";
 
 
-angular.module('spotyApp', ['angularSoap']);
+// angular.module('spotyApp', ['angularSoap']);
 
 @Component({
   selector: 'app-home',
@@ -15,11 +15,18 @@ export class HomeComponent implements OnInit {
   clave="123";
   codigo="Level 8_u1_pretest1";
   message:any;
+  body = {
+    usuario:this.usuario,
+    clave:this.clave,
+    modulo:this.codigo
+  };
+
   
   constructor(private soap:NgxSoapService) { 
-    this.soap.createClient('https://plataforma.zs.ela.cl/wss.php?wsdl').subscribe(cliente=>this.cliente = cliente);
+    this.soap.createClient('https://plataforma.zs.ela.cl/wss.php?wsdl');
     console.log("Ejecutando constructor");
-    console.log(this.cliente);
+    // console.log(this.cliente);
+    this.cliente.call(login, this.body);
     console.log("Constructor ejecutado");
   }
 

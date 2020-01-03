@@ -1,0 +1,7 @@
+{
+    "https://plataforma.zs.ela.cl/wss.php?wsdl": {
+        "target": "https://plataforma.zs.ela.cl",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

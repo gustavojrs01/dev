@@ -1,47 +1,6 @@
-<script src="soapclient.js"></script>
-<script src="angular.soap.js"></script>
+<!-- <script src="soapclient.js"></script> -->
+<!-- <script src="angular.soap.js"></script> -->
 <h1>Home</h1>
 
 
-<script>
-    'use strict';
-    
-    angular.module('myApp').service('Soap', ['$q', '$http',
-        function($q, $http) {
-             this.execute = function(metodo, params) {
-                var envelope = '';
-                var deferred = $q.defer();
-                if (params) {
-                    envelope = '<ns1:'+metodo+'>'+
-                                    '<arg0>'+ JSON.stringify(params) +'</arg0>'+
-                                '</ns1:'+metodo+'>';
-                } else {
-                    envelope = '<ns1:'+metodo+'></ns1:'+metodo+'>';
-                }
-                $http({
-                    'url': 'https://plataforma.zs.ela.cl/wss.php?wsdl',
-                    'method': 'POST', 
-                    'data': '<?xml version="1.0" encoding="UTF-8"?>'+
-                        '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="https://plataforma.zs.ela.cl">'+
-                            '<SOAP-ENV:Body>'+ envelope + '</SOAP-ENV:Body>'+
-                        '</SOAP-ENV:Envelope>'
-                })
-                .then(function(response) {
-                    var result = response.data.substring(response.data.indexOf("<return>") + 8, response.data.indexOf("</return>"));
-                    console.log(result);
-                    deferred.resolve(JSON.parse(result));
-                }, function(response) {
-                    deferred.reject(response);
-                }).catch(function(fallback) {
-                    console.log(fallback);
-                });
-                return deferred;
-            };
-        }
-    ]).controller('MainCtrl', function($scope, Soap) {
-    
-        Soap.execute('login').then(function(response){
-            $scope.response = response;
-        });
-    });
-</script>
+

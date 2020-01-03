@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgxSoapService, Client, ISoapMethodResponse } from "ngx-soap";
+
 
 
 // angular.module('spotyApp', ['angularSoap']);
@@ -9,10 +11,11 @@ import { NgxSoapService, Client, ISoapMethodResponse } from "ngx-soap";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
+  axios = require('axios').default;
   cliente:Client;
-  usuario="test2zs";
-  clave="123";
+  usuario="gustavo_zs";
+  clave="36936";
   codigo="Level 8_u1_pretest1";
   message:any;
   body = {
@@ -23,25 +26,27 @@ export class HomeComponent implements OnInit {
 
   
   constructor(private soap:NgxSoapService) { 
-    this.soap.createClient('https://plataforma.zs.ela.cl/wss.php?wsdl');
-    console.log("Ejecutando constructor");
-    // console.log(this.cliente);
-    this.cliente.call(login, this.body);
-    console.log("Constructor ejecutado");
-  }
+    let xmls='<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wssEla">\
+    <soapenv:Header/>\
+    <soapenv:Body>\
+       <urn:login soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">\
+          <usuario xsi:type="xsd:string">gustavo_zs</usuario>\
+          <clave xsi:type="xsd:string">36936</clave>\
+          <modulo xsi:type="xsd:string">Level 8_u1_pretest1</modulo>\
+       </urn:login>\
+    </soapenv:Body>\
+ </soapenv:Envelope>';
 
-  login(){
-    const body = {
-      usuario:this.usuario,
-      clave:this.clave,
-      modulo:this.codigo
-    };
-    (<any>this.cliente).Add(body).subscribe((res:ISoapMethodResponse)=> this.message = res.result.AddResult);
-  }
+ 
 
-  ngOnInit(): void { 
-    this.login();
-    console.log(this.message);
+this.axios.post('/wss.php?wsdl',
+           xmls,
+           {headers:
+             {'Content-Type': 'text/xml'}
+           }).then(res=>{
+             console.log(res);
+           }).catch(err=>{console.log(err)});
+
   }
 }
 

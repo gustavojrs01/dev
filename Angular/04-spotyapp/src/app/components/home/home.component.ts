@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgxSoapService, Client, ISoapMethodResponse } from "ngx-soap";
+import { NgxSoapService} from "ngx-soap";
 
 
 
@@ -12,8 +12,7 @@ import { NgxSoapService, Client, ISoapMethodResponse } from "ngx-soap";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  axios = require('axios').default;
-  cliente:Client;
+  axios = require('axios').default;  
   usuario="gustavo_zs";
   clave="36936";
   codigo="Level 8_u1_pretest1";

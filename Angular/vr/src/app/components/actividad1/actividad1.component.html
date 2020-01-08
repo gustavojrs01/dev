@@ -1,0 +1,83 @@
+<div class="contenedor">
+    <div class="cabecera">
+      <div class="nombre">
+      <div class="DNNombre">{{cabecera.curso}}<p id="Pnombre"></p></div>
+        <div class="DNActividad">{{cabecera.unidad}}<p id="Pactividad"></p></div>
+        <div class="DNUnidad">{{cabecera.leccion}}<p id="Punidad"></p></div>
+      </div>
+      <div id="divInfo" class="info"></div>
+    </div>
+    <div class="titulo">
+      <div><p>Can you read these words?</p></div>
+    </div>
+    <div class="izquierda"></div>
+    <div class="centro">
+      <div class="contenidoCentro">
+        <div class="fraseCentro">
+          <b
+            ><i><p id="pFrase" style="display: none;" class="phrase"></p></i
+          ></b>
+          <div class="controls" id="botonPlay">
+            <button id="play" type="submit"></button>
+          </div>
+        </div>
+        <div id="fraseLeida" class="escuchaCentro">
+          <div id="btnStart" (click)="start()"></div>
+          <b
+            ><i><p class="output"></p></i
+          ></b>
+        </div>
+        <div class="resultadoCentro">
+          <b
+            ><i
+              ><p
+                class="resultado"
+                style="text-decoration: line-through;"
+              ></p></i
+          ></b>
+        </div>
+        <div class="botonesCentro">
+          <div class="contenedorBotones">
+            <div class="botonEscucha">
+              <button id="botonEscucha"></button>
+            </div>
+            <div id="siguiente" class="siguiente">
+              <button></button>
+            </div>
+            <div id="espectro" class="espectro"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="derecha">
+      <div class="ecogeVoz">
+        <div class="vozHombre">
+          <button id="vozHombre" type="submit"></button>
+        </div>
+        <div class="vozMujer">
+          <button id="vozMujer" type="submit"></button>
+        </div>
+        <div class="vozMaquina">
+          <button id="vozMaquina" type="submit"></button>
+        </div>
+      </div>
+    </div>
+    <div class="pieIzq"></div>
+    <div class="pieCentro">
+      <div class="backNext">
+        <a href="index.php"><div class="back"></div></a>
+        <a id="lnkNext" href="../Actividad2/index.php"
+          ><div id="next" class="next"></div
+        ></a>
+      </div>
+    </div>
+    <div class="pieDer"></div>
+  </div>
+  <div id="lista" style="visibility:hidden;">
+    <select> </select>
+  </div>
+  <div id="contenedorInfo" class="ocultaInfo"></div>
+  <div id="ok"></div>
+  <div id="tryAgain"></div>
+
+  

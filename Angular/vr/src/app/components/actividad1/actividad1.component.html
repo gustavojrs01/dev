@@ -15,10 +15,10 @@
       <div class="contenidoCentro">
         <div class="fraseCentro">
           <b
-            ><i><p id="pFrase" style="display: none;" class="phrase"></p></i
+        ><i><p id="pFrase" style="display: none;" class="phrase">{{leccion.act1[0]}}</p></i
           ></b>
           <div class="controls" id="botonPlay">
-            <button id="play" type="submit"></button>
+            <button id="play" type="submit" (click)="escucha()"></button>
           </div>
         </div>
         <div id="fraseLeida" class="escuchaCentro">
@@ -38,7 +38,7 @@
         </div>
         <div class="botonesCentro">
           <div class="contenedorBotones">
-            <div class="botonEscucha">
+            <div class="botonEscucha" id="botonEscuchadiv">
               <button id="botonEscucha"></button>
             </div>
             <div id="siguiente" class="siguiente">
@@ -50,15 +50,15 @@
       </div>
     </div>
     <div class="derecha">
-      <div class="ecogeVoz">
+      <div class="ecogeVoz" id="ecogeVoz">
         <div class="vozHombre">
-          <button id="vozHombre" type="submit"></button>
+          <button id="vozHombre" type="submit" (click)="cambiaVozH()"></button>
         </div>
         <div class="vozMujer">
-          <button id="vozMujer" type="submit"></button>
+          <button id="vozMujer" type="submit" (click)="cambiaVozM()"></button>
         </div>
         <div class="vozMaquina">
-          <button id="vozMaquina" type="submit"></button>
+          <button id="vozMaquina" type="submit" (click)="cambiaVozMaq()"></button>
         </div>
       </div>
     </div>
@@ -79,5 +79,9 @@
   <div id="contenedorInfo" class="ocultaInfo"></div>
   <div id="ok"></div>
   <div id="tryAgain"></div>
+  <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" (click)="siguienteFrase()">Siguiente frase</button>
+  <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" (click)="repro()">Play</button>
+  
+
 
   

@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router } from "@angular/router";
+import { SpeechRecognizerService } from "../shared/services/speech-recognizer.service";
+import { SpeechNotification } from "../shared/model/speech-notification";
+import { SpeechError } from "../shared/model/speech-error";
+import { ActionContext } from "../shared/model/strategy/action-context";
+import { SpeechSynthesizerService } from "../shared/services/speech-synthesizer.service";
+
 
 @Component({
   selector: 'app-actividad1',
@@ -7,9 +14,46 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Actividad1Component implements OnInit {
 
-  constructor() { }
+  finalTranscript = '';
+  recognizing = false;
+  notification: string;
+  languages: string[] =  ['en-US', 'es-ES'];
+  currentLanguage: string;
+  actionContext: ActionContext = new ActionContext();
+
+  constructor(private router:Router,
+              private changeDetector:ChangeDetectorRef,
+              private speechRecognizer:SpeechRecognizerService,
+              private speechSynthesizer:SpeechSynthesizerService) { }
 
   ngOnInit() {
+
+    this.currentLanguage = this.languages[0];
+    this.speechRecognizer.initialize(this.currentLanguage);
+    this.initRecognition();
+    this.notification = null;
+        
+    document.getElementById("divInfo").addEventListener('mouseover', mostrarInfo1);
+    document.getElementById("divInfo").addEventListener('mouseout', ocultaInfo);
+
+    function mostrarInfo1(){
+	    document.getElementById("contenedorInfo").className  = 'mostrarInfo';
+    }
+    function ocultaInfo(){
+      document.getElementById("contenedorInfo").className  = "ocultaInfo";
+    }
+    // this.Punidad = document.getElementById('Punidad');
+    this.phrasePara = document.querySelector('.phrase');
+    this.resultPara = document.querySelector('.result');
+    this.diagnosticPara = document.querySelector('.output');
+    this.resultado = document.querySelector('.resultado');
+    this.divCorrecto = document.getElementById('correcto');
+    this.divIncorrecto = document.getElementById('incorrecto');
+    this.vozHombre = <HTMLInputElement>document.getElementById('vozHombre');
+    this.vozMujer = <HTMLInputElement>document.getElementById('vozMujer');
+    this.vozMaquina = <HTMLInputElement>document.getElementById('vozMaquina');
+    this.botonPlay = <HTMLElement>document.getElementById('botonPlay');
+    this.play = <HTMLInputElement>document.getElementById('play');
   }
 
   cabecera = {
@@ -18,48 +62,267 @@ export class Actividad1Component implements OnInit {
     "leccion":"L 3-4"
   }
 
-  phrasePara = document.querySelector('.phrase');
-  resultPara = document.querySelector('.result');
-  diagnosticPara = document.querySelector('.output');
-  resultado = document.querySelector('.resultado');
-  //var testBtn = document.querySelector('button');
-  testBtn = document.getElementById('botonEscucha');
-  //var divCorrecto = document.getElementById('correcto');
-  //var divIncorrecto = document.getElementById('incorrecto');
-  voiceSelect = document.querySelector('select');
-  fraseLeida = document.getElementById('fraseLeida');
+  leccion = {
+    "curso":"Level 8",
+    "unidad":"U1",
+    "leccion":"L 3-4",
+    "act1":[
+        "Email", 
+        "On", 
+        "Download", 
+        "Always", 
+        "Usually", 
+        "Generally", 
+        "Often", 
+        "Sometimes", 
+        "Occasionally",
+        "Hardly Ever",
+        "Never",
+        "Send Emails",
+        "Text messaging",
+        "Download"
+    ],
+    "act2":[
+        "I sent you an email",
+        "I texted my mom",
+        "I generally download music and movies",
+        "We always upload pictures to our social networks",
+        "I never send emails on Sunday",
+        "She often calls me on Friday",
+        "He opened his account in 2014"
+    ],
+    "act3":[
+        "Do you have a social media account?",
+        "Yes, I do! I opened it in 2016",
+        "I sent you an email",
+        "I last checked my email in December",
+        "Why?",
+        "Because, I forgot my password"
+    ],
+    "act4":"I always post pictures of my mom on December 15th, because it's her birthday. I talk to her every day at 6:00, when I get home. Sometimes, I check my phone and answer my emails in the afternoon.",
+    "act5":[
+        "Email",
+        "On",
+        "Download",
+        "Often",
+        "Sometimes",
+        "Occasionally",
+        "I texted my mom",
+        "I generally download music and movies",
+        "We always upload pictures to our social network",
+        "She often calls me on Friday",
+        "I opened it in 2016",
+        "I last checked my e-mail in December",
+        "I always use the same password for everything",
+        "I occasionally do that"
+    ]
+}
+ 
+
+
   indiceFrase = 0;
   contIncorrectas = 0;
-  btnStart = document.getElementById('btnStart');
-  pFrase = document.getElementById('pFrase');
-  espectro = document.getElementById('espectro');
-  siguiente = document.getElementById('siguiente');
-  next = document.getElementById('next');
+  voz:string = "h";
+  // voices = [];
+
+  pFrase;
+
+  phrasePara:HTMLElement;
+  resultPara:HTMLElement;
+  diagnosticPara:HTMLElement;
+  resultado:HTMLElement;
+  divCorrecto:HTMLElement;
+  divIncorrecto:HTMLElement;
+  vozHombre:HTMLInputElement;
+  vozMujer:HTMLInputElement;
+  vozMaquina:HTMLInputElement;
+  botonPlay:HTMLElement;
+  play:HTMLInputElement;
+  // fraseLeida = document.getElementById('fraseLeida');
+  // espectro = document.getElementById('espectro');
+  // voiceSelect = document.querySelector('select');
+  // ok = document.getElementById('ok');
   
-  divInfo = document.getElementById('divInfo');
-  contenedorInfo = document.getElementById('contenedorInfo');
-  ok = document.getElementById('ok');
-  tryAgain = document.getElementById('tryAgain');
-  lnkNext = document.getElementById('lnkNext');
   
-  Pnombre = document.getElementById('Pnombre');
-  Pactividad = document.getElementById('Pactividad');
-  Punidad = document.getElementById('Punidad');
+  //var testBtn = document.querySelector('button');
+  // testBtn = document.getElementById('botonEscucha');
+  // divInfo = document.getElementById('divInfo');
+  // btnStart = document.getElementById('btnStart');
+  // siguiente = document.getElementById('siguiente');
+  // next = document.getElementById('next');
+  // contenedorInfo = document.getElementById('contenedorInfo');
+  // tryAgain = document.getElementById('tryAgain');
+  // lnkNext = document.getElementById('lnkNext');
   
-  voices = [];
+  // Punidad = document.getElementById('Punidad');
+  // Pnombre = document.getElementById('Pnombre');
+  // Pactividad = document.getElementById('Pactividad');
+  // Punidad:HTMLElement;
   
-  vozHombre = document.getElementById('vozHombre');
-  vozMujer = document.getElementById('vozMujer');
-  vozMaquina = document.getElementById('vozMaquina');
-  voz = '11';
+ 
   
-  btnPlay = document.getElementById('botonPlay');
+  
+  
   start(){
-    this.btnPlay.style.visibility="visible";
-    // document.getElementById('botonPlay').style.visibility="visible";
-    // alert("Funciona");
+    // this.btnPlay.style.visibility="visible";
+    document.getElementById('botonPlay').style.display="block";
+    document.getElementById('botonEscucha').style.display="block";
+    document.getElementById('botonEscuchadiv').style.display="block";
+    document.getElementById('btnStart').style.display="none";
+    document.getElementById('ecogeVoz').style.visibility="visible";
+    document.getElementById('pFrase').style.display="block";
   
   }
 
+  siguienteFrase(){
+    // let cantidad = this.leccion.act1.length;
+    if (this.indiceFrase == 12){
+      alert("No hay mas palabras a mostrar");
+      this.router.navigate(['actividad2']);
+    }
+    console.log(this.pFrase);
+    this.indiceFrase = this.indiceFrase+1;
+    document.getElementById('pFrase').textContent = this.leccion.act1[this.indiceFrase];
+
+  }
+
+  startButton(event) {
+    if (this.recognizing) {
+      this.speechRecognizer.stop();
+      return;
+    }
+
+    this.speechRecognizer.start(event.timeStamp);
+  }
+
+  onSelectLanguage(language: string) {
+    this.currentLanguage = language;
+    this.speechRecognizer.setLanguage(this.currentLanguage);
+  }
+
+  private initRecognition() {
+    this.speechRecognizer.onStart()
+      .subscribe(data => {
+        this.recognizing = true;
+        this.notification = 'I\'m listening...';
+        this.detectChanges();
+      });
+
+    this.speechRecognizer.onEnd()
+      .subscribe(data => {
+        this.recognizing = false;
+        this.detectChanges();
+        this.notification = null;
+      });
+
+    this.speechRecognizer.onResult()
+      .subscribe((data: SpeechNotification) => {
+        const message = data.content.trim();
+        if (data.info === 'final_transcript' && message.length > 0) {
+          this.finalTranscript = `${this.finalTranscript}\n${message}`;
+          this.actionContext.processMessage(message, this.currentLanguage);
+          this.detectChanges();
+          this.actionContext.runAction(message, this.currentLanguage);
+        }
+      });
+
+    this.speechRecognizer.onError()
+      .subscribe(data => {
+        switch (data.error) {
+          case SpeechError.BLOCKED:
+          case SpeechError.NOT_ALLOWED:
+            this.notification = `Cannot run the demo.
+            Your browser is not authorized to access your microphone. Verify that your browser has access to your microphone and try again.
+            `;
+            break;
+          case SpeechError.NO_SPEECH:
+            this.notification = `No speech has been detected. Please try again.`;
+            break;
+          case SpeechError.NO_MICROPHONE:
+            this.notification = `Microphone is not available. Plese verify the connection of your microphone and try again.`;
+            break;
+          default:
+            this.notification = null;
+            break;
+        }
+        this.recognizing = false;
+        this.detectChanges();
+      });
+  }
+
+  detectChanges() {
+    this.changeDetector.detectChanges();
+  }
+ 
+
+  repro(){
+    this.speechSynthesizer.speak(this.leccion.act1[this.indiceFrase],"en-US");    
+  }
+  
+  
+
+  escucha(){
+    this.vozHombre.disabled = true;
+    this.vozMujer.disabled = true;
+    this.vozMaquina.disabled = true;
+    this.play.disabled = true;
+    this.botonPlay.style.display="none";
+    if (this.voz == "0")
+	    {
+        this.speechSynthesizer.speak(this.leccion.act1[this.indiceFrase],"en-US");
+        this.speechSynthesizer.message.onend =()=>{
+          this.audioEnd();
+        };
+      }
+	 else
+	  {
+		  this.playSound();
+		}
+  }
+
+  playSound() {
+
+    let sonido = new Audio();
+    sonido.src = "/assets/audio/" + this.voz + '/' + this.indiceFrase + ".mp3";
+    sonido.play();
+    sonido.addEventListener("ended", ()=>{
+      sonido.currentTime = 0;
+      this.botonPlay.style.display="block";
+      this.play.disabled = false;
+      this.audioEnd();
+    });    
+  }
+  
+  
+  // playSound(el,soundfile) {
+	//   this.vozHombre.disabled = true;
+  //   this.vozMujer.disabled = true;
+  //   this.vozMaquina.disabled = true;
+  //   this.btnPlay.disabled = true;
+	//   el.mp3 = new Audio(soundfile);
+	//   el.mp3.play();
+	//   el.mp3.onended = () => {this.audioEnd}
+  // }
+
+  audioEnd(){
+    this.vozHombre.disabled = false;
+    this.vozMujer.disabled = false;
+    this.vozMaquina.disabled = false;
+    this.play.disabled = false;
+    this.botonPlay.style.display = "block";
+  }
+
+  cambiaVozH(){
+    this.voz = 'h';
+    this.escucha();
+  }
+  cambiaVozM(){
+	  this.voz = 'm';
+	  this.escucha();
+  }
+  cambiaVozMaq(){
+    this.voz= '0';
+    this.escucha();
+}
 
 }

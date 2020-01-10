@@ -103,7 +103,8 @@ export class Actividad2Component implements OnInit {
  
 
   repro(){
-    this.speechSynthesizer.speak("hello my friend","en-US")
+    this.speechSynthesizer.speak("hello my friend","en-US");
+    this.leccionesService.getDatos("l8u2l1y2");
   }
   
 

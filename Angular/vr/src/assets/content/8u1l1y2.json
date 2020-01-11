@@ -1,0 +1,55 @@
+{
+    "curso":"Level 8",
+    "unidad":"U1",
+    "leccion":"L 1-2",
+    "act1":[
+        "Email", 
+        "On", 
+        "Download", 
+        "Always", 
+        "Usually", 
+        "Generally", 
+        "Often", 
+        "Sometimes", 
+        "Occasionally",
+        "Hardly Ever",
+        "Never",
+        "Send Emails",
+        "Text messaging",
+        "Download"
+    ],
+    "act2":[
+        "I sent you an email",
+        "I texted my mom",
+        "I generally download music and movies",
+        "We always upload pictures to our social networks",
+        "I never send emails on Sunday",
+        "She often calls me on Friday",
+        "He opened his account in 2014"
+    ],
+    "act3":[
+        "Do you have a social media account?",
+        "Yes, I do! I opened it in 2016",
+        "I sent you an email",
+        "I last checked my email in December",
+        "Why?",
+        "Because, I forgot my password"
+    ],
+    "act4":"I always post pictures of my mom on December 15th, because it's her birthday. I talk to her every day at 6:00, when I get home. Sometimes, I check my phone and answer my emails in the afternoon.",
+    "act5":[
+        "Email",
+        "On",
+        "Download",
+        "Often",
+        "Sometimes",
+        "Occasionally",
+        "I texted my mom",
+        "I generally download music and movies",
+        "We always upload pictures to our social network",
+        "She often calls me on Friday",
+        "I opened it in 2016",
+        "I last checked my e-mail in December",
+        "I always use the same password for everything",
+        "I occasionally do that"
+    ]
+}

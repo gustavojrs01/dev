@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LeccionesService } from "./components/shared/services/lecciones.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  constructor(private leccionesService:LeccionesService){
+    this.leccionesService.cargada="Esto es el appComponent";
+    console.log(this.leccionesService.cargada);
+  }
 }

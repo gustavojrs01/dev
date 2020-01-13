@@ -5,6 +5,7 @@ import { SpeechNotification } from "../shared/model/speech-notification";
 import { SpeechError } from "../shared/model/speech-error";
 import { ActionContext } from "../shared/model/strategy/action-context";
 import { SpeechSynthesizerService } from "../shared/services/speech-synthesizer.service";
+import { LeccionesService } from "../shared/services/lecciones.service";
 
 
 @Component({
@@ -17,21 +18,42 @@ export class Actividad1Component implements OnInit {
   finalTranscript = '';
   recognizing = false;
   notification: string;
-  languages: string[] =  ['en-US', 'es-ES'];
+  languages: string[] =  ['en-US'];
   currentLanguage: string;
   actionContext: ActionContext = new ActionContext();
+  codigoLeccion= "l8u1l1y2";
+  indiceFrase = 0;
+  contIncorrectas = 0;
+  voz:string = "h";
+  datos;  
+  act="act1";
+  
+  
 
   constructor(private router:Router,
               private changeDetector:ChangeDetectorRef,
               private speechRecognizer:SpeechRecognizerService,
-              private speechSynthesizer:SpeechSynthesizerService) { }
+              private speechSynthesizer:SpeechSynthesizerService,
+              private leccionesService:LeccionesService) { 
+                this.leccionesService.getDatos(this.codigoLeccion);
+                this.datos= this.leccionesService.datos;
+                // this.codigoLeccion = this.leccionesService.datos.codigo;
+                // this.leccionesService.getDatos(this.codigoLeccion);
+                // this.datos=this.leccionesService.datos;
+                // this.datos = this.leccionesService.getConfig("l8u1l3y4");
+                console.log("constructor");
+                console.log(this.leccionesService.cargada);
+
+              }
 
   ngOnInit() {
-
+    // this.leccionesService.getDatos(this.codigoLeccion);
+    // this.datos= this.leccionesService.datos;
     this.currentLanguage = this.languages[0];
     this.speechRecognizer.initialize(this.currentLanguage);
     this.initRecognition();
     this.notification = null;
+    
         
     document.getElementById("divInfo").addEventListener('mouseover', mostrarInfo1);
     document.getElementById("divInfo").addEventListener('mouseout', ocultaInfo);
@@ -54,6 +76,10 @@ export class Actividad1Component implements OnInit {
     this.vozMaquina = <HTMLInputElement>document.getElementById('vozMaquina');
     this.botonPlay = <HTMLElement>document.getElementById('botonPlay');
     this.play = <HTMLInputElement>document.getElementById('play');
+    // this.pFrase = <HTMLElement>document.getElementById('pFrase');
+    console.log("init");
+
+    
   }
 
   cabecera = {
@@ -61,7 +87,6 @@ export class Actividad1Component implements OnInit {
     "unidad":"U2",
     "leccion":"L 3-4"
   }
-
   leccion = {
     "curso":"Level 8",
     "unidad":"U1",
@@ -116,14 +141,12 @@ export class Actividad1Component implements OnInit {
         "I always use the same password for everything",
         "I occasionally do that"
     ]
-}
+  }
  
 
 
-  indiceFrase = 0;
-  contIncorrectas = 0;
-  voz:string = "h";
-  // voices = [];
+
+
 
   pFrase;
 
@@ -164,7 +187,10 @@ export class Actividad1Component implements OnInit {
   
   
   start(){
+    this.datos= this.leccionesService.datos;
     // this.btnPlay.style.visibility="visible";
+    // this.pFrase.textContent = "Hola mundo";
+    document.getElementById('pFrase').textContent = this.datos.act1[0];
     document.getElementById('botonPlay').style.display="block";
     document.getElementById('botonEscucha').style.display="block";
     document.getElementById('botonEscuchadiv').style.display="block";
@@ -180,9 +206,9 @@ export class Actividad1Component implements OnInit {
       alert("No hay mas palabras a mostrar");
       this.router.navigate(['actividad2']);
     }
-    console.log(this.pFrase);
+    // console.log(this.pFrase);
     this.indiceFrase = this.indiceFrase+1;
-    document.getElementById('pFrase').textContent = this.leccion.act1[this.indiceFrase];
+    document.getElementById('pFrase').textContent = this.datos.act1[this.indiceFrase];
 
   }
 
@@ -256,34 +282,47 @@ export class Actividad1Component implements OnInit {
  
 
   repro(){
-    this.speechSynthesizer.speak(this.leccion.act1[this.indiceFrase],"en-US");    
+    this.datos= this.leccionesService.datos;
+    this.speechSynthesizer.speak(this.datos.act1[this.indiceFrase],"en-US");    
   }
   
   
 
-  escucha(){
+  escucha(){    
+    //*************************************************************************************** */
+    //                              Ejemplo de SpeechSynthesis                     
+    //   var utterance  = new SpeechSynthesisUtterance();
+    //   utterance.text = 'My name\'s Guybrush Threepwood, and I want to be a pirate!';
+    //   utterance.lang = "en-US";
+    //   speechSynthesis.getVoices().forEach(function(voice) {
+    //     console.log('Hi! My name is ', voice.name);
+    //  });
+    //   utterance.voice = speechSynthesis.getVoices()[3];
+    //   speechSynthesis.speak(utterance);
+    //**************************************************************************************** */
+    
+    
+    // this.datos= this.leccionesService.datos;
     this.vozHombre.disabled = true;
     this.vozMujer.disabled = true;
     this.vozMaquina.disabled = true;
     this.play.disabled = true;
     this.botonPlay.style.display="none";
-    if (this.voz == "0")
-	    {
-        this.speechSynthesizer.speak(this.leccion.act1[this.indiceFrase],"en-US");
+    if (this.voz == "0"){
+        this.speechSynthesizer.speak(this.datos.act1[this.indiceFrase],"en-US");
         this.speechSynthesizer.message.onend =()=>{
           this.audioEnd();
         };
-      }
-	 else
-	  {
+    }
+    else{
 		  this.playSound();
-		}
+    }
   }
 
   playSound() {
 
     let sonido = new Audio();
-    sonido.src = "/assets/audio/" + this.voz + '/' + this.indiceFrase + ".mp3";
+    sonido.src = "/assets/audio/" + this.codigoLeccion + '/' + this.act + '/' + this.voz + '/' + this.indiceFrase + ".mp3";
     sonido.play();
     sonido.addEventListener("ended", ()=>{
       sonido.currentTime = 0;
@@ -323,6 +362,22 @@ export class Actividad1Component implements OnInit {
   cambiaVozMaq(){
     this.voz= '0';
     this.escucha();
-}
+  } 
+
+  // showConfig() {
+  //   this.leccionesService.getConfig(this.codigoLeccion)
+  //     .subscribe((data) => this.lecciones1 = {
+  //         curso: data['curso'],
+  //         unidad: data['unidad'],
+  //         leccion: data['leccion'],
+  //         act1: data['act1'],
+  //         act2: data['act2'],
+  //         act3: data['act3'],
+  //         act4: data['act4'],
+  //         act5: data['act5'],
+  //     });
+  // }
+
+
 
 }

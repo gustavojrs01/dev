@@ -8,8 +8,17 @@ import { LeccionesService } from "./components/shared/services/lecciones.service
 })
 export class AppComponent {
   title = 'app';
+  codigoLeccion:string;
   constructor(private leccionesService:LeccionesService){
     this.leccionesService.cargada="Esto es el appComponent";
     console.log(this.leccionesService.cargada);
+  }
+  
+  setCodigo(){
+    let codigo:HTMLInputElement;
+    codigo = <HTMLInputElement>document.getElementById("codigoLeccion");
+    localStorage.setItem("codigoLeccion", codigo.value);
+    // this.leccionesService.codigoLeccion = codigo.value;
+    console.log(localStorage.getItem("codigoLeccion"));
   }
 }

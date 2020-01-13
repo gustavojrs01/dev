@@ -21,7 +21,7 @@ export class Actividad1Component implements OnInit {
   languages: string[] =  ['en-US'];
   currentLanguage: string;
   actionContext: ActionContext = new ActionContext();
-  codigoLeccion= "l8u1l1y2";
+  codigoLeccion:string;
   indiceFrase = 0;
   contIncorrectas = 0;
   voz:string = "h";
@@ -35,14 +35,18 @@ export class Actividad1Component implements OnInit {
               private speechRecognizer:SpeechRecognizerService,
               private speechSynthesizer:SpeechSynthesizerService,
               private leccionesService:LeccionesService) { 
-                this.leccionesService.getDatos(this.codigoLeccion);
-                this.datos= this.leccionesService.datos;
+                this.codigoLeccion = localStorage.getItem("codigoLeccion");
+                this.leccionesService.getDatos(this.leccionesService.codigoLeccion);
+                // this.datos= this.leccionesService.datos;
                 // this.codigoLeccion = this.leccionesService.datos.codigo;
                 // this.leccionesService.getDatos(this.codigoLeccion);
                 // this.datos=this.leccionesService.datos;
                 // this.datos = this.leccionesService.getConfig("l8u1l3y4");
+                this.leccionesService.codigoLeccion=this.codigoLeccion;
                 console.log("constructor");
                 console.log(this.leccionesService.cargada);
+                console.log(localStorage.getItem("codigoLeccion"));
+                
 
               }
 
@@ -187,7 +191,9 @@ export class Actividad1Component implements OnInit {
   
   
   start(){
+    // this.leccionesService.getDatos(this.leccionesService.codigoLeccion);
     this.datos= this.leccionesService.datos;
+    // console.log(this.datos);
     // this.btnPlay.style.visibility="visible";
     // this.pFrase.textContent = "Hola mundo";
     document.getElementById('pFrase').textContent = this.datos.act1[0];
@@ -282,7 +288,7 @@ export class Actividad1Component implements OnInit {
  
 
   repro(){
-    this.datos= this.leccionesService.datos;
+    // this.datos= this.leccionesService.datos;
     this.speechSynthesizer.speak(this.datos.act1[this.indiceFrase],"en-US");    
   }
   
@@ -302,7 +308,7 @@ export class Actividad1Component implements OnInit {
     //**************************************************************************************** */
     
     
-    // this.datos= this.leccionesService.datos;
+    this.datos= this.leccionesService.datos;
     this.vozHombre.disabled = true;
     this.vozMujer.disabled = true;
     this.vozMaquina.disabled = true;

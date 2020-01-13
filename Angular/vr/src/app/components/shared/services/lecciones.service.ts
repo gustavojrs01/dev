@@ -6,12 +6,12 @@ import { HttpClient } from "@angular/common/http";
 export class LeccionesService {
     datos;
     cargada:string;
-
-    archivo="l8u13y4";
+    codigoLeccion:string;
+    archivo="l8u1l1y2";
 
     constructor(private http:HttpClient){
         console.log("servicio lecciones corriendo");
-        
+        this.codigoLeccion = localStorage.getItem("codigoLeccion");
         
     }
     
@@ -19,7 +19,7 @@ export class LeccionesService {
             this.http.get("/assets/content/"+leccion+".json")
             .subscribe(resp=>{
                     this.datos = resp;
-                    this.cargada = true;
+                    // this.cargada = true;
                     // console.log(this.datos);            
                 });        
             }
@@ -30,6 +30,9 @@ export class LeccionesService {
     //             console.log(datosLeccion);                
     //   }
 
+    mandarData(){
+        return this.datos;
+    }
     
 }
 

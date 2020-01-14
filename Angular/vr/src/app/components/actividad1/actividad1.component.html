@@ -24,7 +24,7 @@
         <div id="fraseLeida" class="escuchaCentro">
           <div id="btnStart" (click)="start()"></div>
           <b
-            ><i><p class="output"></p></i
+            ><i><p class="output" id="output"></p></i
           ></b>
         </div>
         <div class="resultadoCentro">
@@ -39,7 +39,7 @@
         <div class="botonesCentro">
           <div class="contenedorBotones">
             <div class="botonEscucha" id="botonEscuchadiv">
-              <button id="botonEscucha"></button>
+              <button id="botonEscucha" (click)="reconocimiento()"></button>
             </div>
             <div id="siguiente" class="siguiente">
               <button></button>

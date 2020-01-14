@@ -36,13 +36,15 @@ export class Actividad1Component implements OnInit {
               private speechSynthesizer:SpeechSynthesizerService,
               private leccionesService:LeccionesService) { 
                 this.codigoLeccion = localStorage.getItem("codigoLeccion");
-                this.leccionesService.getDatos(this.leccionesService.codigoLeccion);
+                // this.leccionesService.getDatos(this.leccionesService.codigoLeccion);    Este Funciona
+                this.leccionesService.getDatos(localStorage.getItem("codigoLeccion"));
                 // this.datos= this.leccionesService.datos;
                 // this.codigoLeccion = this.leccionesService.datos.codigo;
                 // this.leccionesService.getDatos(this.codigoLeccion);
                 // this.datos=this.leccionesService.datos;
                 // this.datos = this.leccionesService.getConfig("l8u1l3y4");
-                this.leccionesService.codigoLeccion=this.codigoLeccion;
+                // this.leccionesService.codigoLeccion=this.codigoLeccion;               Este funciona
+                this.leccionesService.codigoLeccion=localStorage.getItem("codigoLeccion");
                 console.log("constructor");
                 console.log(this.leccionesService.cargada);
                 console.log(localStorage.getItem("codigoLeccion"));
@@ -71,7 +73,7 @@ export class Actividad1Component implements OnInit {
     // this.Punidad = document.getElementById('Punidad');
     this.phrasePara = document.querySelector('.phrase');
     this.resultPara = document.querySelector('.result');
-    this.diagnosticPara = document.querySelector('.output');
+    this.diagnosticPara = <HTMLParagraphElement>document.getElementById('output');
     this.resultado = document.querySelector('.resultado');
     this.divCorrecto = document.getElementById('correcto');
     this.divIncorrecto = document.getElementById('incorrecto');
@@ -80,6 +82,7 @@ export class Actividad1Component implements OnInit {
     this.vozMaquina = <HTMLInputElement>document.getElementById('vozMaquina');
     this.botonPlay = <HTMLElement>document.getElementById('botonPlay');
     this.play = <HTMLInputElement>document.getElementById('play');
+    this.espectro = <HTMLElement>document.getElementById('espectro');
     // this.pFrase = <HTMLElement>document.getElementById('pFrase');
     console.log("init");
 
@@ -156,7 +159,7 @@ export class Actividad1Component implements OnInit {
 
   phrasePara:HTMLElement;
   resultPara:HTMLElement;
-  diagnosticPara:HTMLElement;
+  diagnosticPara:HTMLParagraphElement;
   resultado:HTMLElement;
   divCorrecto:HTMLElement;
   divIncorrecto:HTMLElement;
@@ -165,8 +168,10 @@ export class Actividad1Component implements OnInit {
   vozMaquina:HTMLInputElement;
   botonPlay:HTMLElement;
   play:HTMLInputElement;
+  espectro:HTMLElement;
+  phrase;
+
   // fraseLeida = document.getElementById('fraseLeida');
-  // espectro = document.getElementById('espectro');
   // voiceSelect = document.querySelector('select');
   // ok = document.getElementById('ok');
   
@@ -193,6 +198,7 @@ export class Actividad1Component implements OnInit {
   start(){
     // this.leccionesService.getDatos(this.leccionesService.codigoLeccion);
     this.datos= this.leccionesService.datos;
+    
     // console.log(this.datos);
     // this.btnPlay.style.visibility="visible";
     // this.pFrase.textContent = "Hola mundo";
@@ -236,6 +242,7 @@ export class Actividad1Component implements OnInit {
     this.speechRecognizer.onStart()
       .subscribe(data => {
         this.recognizing = true;
+        this.espectro.style.display="block";
         this.notification = 'I\'m listening...';
         this.detectChanges();
       });
@@ -243,8 +250,10 @@ export class Actividad1Component implements OnInit {
     this.speechRecognizer.onEnd()
       .subscribe(data => {
         this.recognizing = false;
+        this.espectro.style.display="none";
         this.detectChanges();
         this.notification = null;
+        
       });
 
     this.speechRecognizer.onResult()
@@ -255,6 +264,10 @@ export class Actividad1Component implements OnInit {
           this.actionContext.processMessage(message, this.currentLanguage);
           this.detectChanges();
           this.actionContext.runAction(message, this.currentLanguage);
+          // console.log(this.finalTranscript);
+          var speechResult = this.finalTranscript.toLowerCase();
+          this.diagnosticPara.textContent = '.' + speechResult + '.';
+
         }
       });
 
@@ -384,6 +397,102 @@ export class Actividad1Component implements OnInit {
   //     });
   // }
 
+
+  reconocimiento(){
+    let phrase = this.datos.act1[this.indiceFrase];
+    this.espectro.style.display="block";
+    this.diagnosticPara.textContent = "Listening";
+    this.resultado.textContent = '';
+    // this.phrase = this.phrase.toLowerCase();
+    // this.phrase = this.phrase.trim();
+    
+    var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + this.phrase +';';
+    var recognition = new SpeechRecognition();
+    var speechRecognitionList = new SpeechGrammarList();
+    speechRecognitionList.addFromString(grammar, 1);
+    recognition.grammars = speechRecognitionList;
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    
+    recognition.start();
+    
+    recognition.onresult = function(event) {
+      
+      // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
+      // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
+      // It has a getter so it can be accessed like an array
+      // The first [0] returns the SpeechRecognitionResult at position 0.
+      // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
+      // These also have getters so they can be accessed like arrays.
+      // The second [0] returns the SpeechRecognitionAlternative at position 0.
+      // We then return the transcript property of the SpeechRecognitionAlternative object
+      var speechResult = event.results[0][0].transcript.toLowerCase();
+      diagnosticPara.textContent = '.' + speechResult + '.';
+      var phrase2 = phrase;
+    phrase2 = phrase2.replace(/\?/g, "");
+    phrase2 = phrase2.replace(/-/g, "");
+    phrase2 = phrase2.replace(/,/g, "");
+    phrase2 = phrase2.replace(/\./g, "");
+    phrase2 = phrase2.replace(/\!/g, "");
+      if(speechResult === phrase2) {
+        //resultPara.textContent = 'Frase dicha correctamente!';
+        //resultPara.style.background = 'yellow';
+        //divCorrecto.style.visibility= 'visible';
+        //Fspeak2('ok');
+        ok.style.opacity='1';
+        // $("#ok").fadeIn(1000); //Despues de 2000
+        // $("#ok").fadeOut(4000);
+      fraseLeida.style.color= 'green';
+      //indiceFrase = indiceFrase + 1;
+      siguiente.style.display='block';
+      phrasePara.textContent = phrases[indiceFrase];
+      diagnosticPara.textContent = phrasePara.textContent;
+      resultado.style.visibility="hidden";
+        
+        playSound(this, 'ok.mp3');
+      } else {
+        //resultPara.textContent = 'Eso no suena bien....';
+        //resultPara.style.background = 'red';
+        //divIncorrecto.style.visibility= 'visible';
+       //Fspeak2('try again');
+       tryAgain.style.opacity='1';
+     $("#tryAgain").fadeIn(1000); //Despues de 2000
+     $("#tryAgain").fadeOut(4000);
+    resultado.style.visibility="visible";	
+       contIncorrectas = contIncorrectas + 1;
+      fraseLeida.style.color= 'blue';
+      resultado.style.color= 'red';
+       playSound(this, 'tryagain.mp3');
+       if (contIncorrectas == 6)
+       {
+       contIncorrectas = 0
+       siguiente.style.display='block';
+       }
+  
+      }
+      //resultado.textContent = ' <div class=\"container--compare-blocks\"><div class=\"compare-block compare-block-two\"><div class=\"block\" id=\"block2\"><p class=\"phrase\"></p></div></div><div class=\"compare-block compare-block-one\">	<div class=\"block\" id=\"block1\">	<p class=\"output\"></p></div></div><article class=\"container--diff\">	<section id=\"diff\" class=\"diff\"></section></article></div><script src=\"js/libs/jquery-1.11.1.min.js\" type=\"text/javascript\" charset=\"utf-8\"></script>	<script src=\"js/index.js\" type=\"text/javascript\" charset=\"utf-8\"></script>';
+  
+     var texto = phrase;
+     var texto2 = speechResult;
+  
+      var result = checkDifferences(texto, texto2);
+      resultado.textContent = result.differences2.join('\n');
+      /*phrasePara.textContent = texto + '\n' + result.differences2.join('\n');*/
+      console.log('Confidencia: ' + event.results[0][0].confidence);
+    }
+    
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  }
 
 
 }

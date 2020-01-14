@@ -362,9 +362,9 @@ color:#333;
   /* background-image: url("imagenes/spectro3.gif"); */
   background-image: url("assets/img/spectro3.gif");
   background-size: cover;
-  /* position: relative; */
-  /* top: 63px; */
-  /* left: 237px; */
+  position: relative;
+  top: -9px;
+  left: 62px;
   /* visibility:hidden; */
   display: none;
   float: left;

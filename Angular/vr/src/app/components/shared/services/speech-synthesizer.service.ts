@@ -17,7 +17,7 @@ export class SpeechSynthesizerService {
     
     this.message.volume = 1;
     this.message.rate = 0.8;
-    this.message.pitch = 0.9; 
+    this.message.pitch = 1; 
   }
   
   speak(message: string, language: string): void {

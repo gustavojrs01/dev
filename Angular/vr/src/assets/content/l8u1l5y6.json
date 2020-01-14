@@ -1,0 +1,56 @@
+{
+    "curso":"Level 8",
+    "unidad":"U1",
+    "leccion":"L 5-6",
+    "codigo":"l8u1l5y6",
+    "act1":[
+        "My",
+        "Your",
+        "Website",
+        "Her",
+        "Our",
+        "Digital natives",
+        "Should",
+        "Shouldn't",
+        "Smartphones",
+        "Website",
+        "Play games",
+        "Receive e-mails",
+        "Send e-mails",
+        "Digital natives"
+    ],
+    "act2":[
+        "This is my smartphone",
+        "I like your website",
+        "Video games are fun",
+        "She shouldn't play",
+        "They should be careful in their social media accounts",
+        "I should change my profile picture",
+        "She should open her own website"
+    ],
+    "act3":[
+        "Is this your website?",
+        "Yes, it is!",
+        "You should tell more people about it",
+        "Thank you. You should have your own website",
+        "No, I shouldn't. What would it be about?",
+        "You should post your pictures"
+    ],
+    "act4":"I should stay off my phone for a while. You shouldn't use your phone so much. Also, people shouldn't post everything in their social media accounts, because it can be dangerous. You should be careful about what you share with the world.",
+    "act5":[
+        "Our",
+        "My",
+        "Should",
+        "Shouldn't",
+        "Smartphones",
+        "Website",
+        "This is my smartphone",
+        "I like your website",
+        "Video games are fun",
+        "I should change my profile picture",
+        "She should open her own website",
+        "You should tell more people about it. It's cool!",
+        "No, I shouldn't",
+        "We're digital natives"
+    ]
+}

@@ -6,6 +6,8 @@ import { SpeechError } from "../shared/model/speech-error";
 import { ActionContext } from "../shared/model/strategy/action-context";
 import { SpeechSynthesizerService } from "../shared/services/speech-synthesizer.service";
 import { LeccionesService } from "../shared/services/lecciones.service";
+import { AppWindow } from '../shared/model/app-window';
+const { webkitSpeechRecognition }: AppWindow = (window as any) as AppWindow;
 
 
 @Component({
@@ -27,7 +29,7 @@ export class Actividad1Component implements OnInit {
   voz:string = "h";
   datos;  
   act="act1";
-  
+  phrases = new Array();
   
 
   constructor(private router:Router,
@@ -46,7 +48,7 @@ export class Actividad1Component implements OnInit {
                 // this.leccionesService.codigoLeccion=this.codigoLeccion;               Este funciona
                 this.leccionesService.codigoLeccion=localStorage.getItem("codigoLeccion");
                 console.log("constructor");
-                console.log(this.leccionesService.cargada);
+                // console.log(this.leccionesService.cargada);
                 console.log(localStorage.getItem("codigoLeccion"));
                 
 
@@ -83,6 +85,9 @@ export class Actividad1Component implements OnInit {
     this.botonPlay = <HTMLElement>document.getElementById('botonPlay');
     this.play = <HTMLInputElement>document.getElementById('play');
     this.espectro = <HTMLElement>document.getElementById('espectro');
+    this.fraseLeida = <HTMLElement>document.getElementById('fraseLeida');
+    this.siguiente = <HTMLElement>document.getElementById('siguiente');
+    this.tryAgain = <HTMLElement>document.getElementById('tryAgain');
     // this.pFrase = <HTMLElement>document.getElementById('pFrase');
     console.log("init");
 
@@ -170,8 +175,10 @@ export class Actividad1Component implements OnInit {
   play:HTMLInputElement;
   espectro:HTMLElement;
   phrase;
+  fraseLeida:HTMLElement;
+  siguiente:HTMLElement;
+  tryAgain:HTMLElement;
 
-  // fraseLeida = document.getElementById('fraseLeida');
   // voiceSelect = document.querySelector('select');
   // ok = document.getElementById('ok');
   
@@ -180,10 +187,10 @@ export class Actividad1Component implements OnInit {
   // testBtn = document.getElementById('botonEscucha');
   // divInfo = document.getElementById('divInfo');
   // btnStart = document.getElementById('btnStart');
-  // siguiente = document.getElementById('siguiente');
+  
   // next = document.getElementById('next');
   // contenedorInfo = document.getElementById('contenedorInfo');
-  // tryAgain = document.getElementById('tryAgain');
+  
   // lnkNext = document.getElementById('lnkNext');
   
   // Punidad = document.getElementById('Punidad');
@@ -245,6 +252,7 @@ export class Actividad1Component implements OnInit {
         this.espectro.style.display="block";
         this.notification = 'I\'m listening...';
         this.detectChanges();
+        this.diagnosticPara.textContent = "Listening"
       });
 
     this.speechRecognizer.onEnd()
@@ -253,21 +261,29 @@ export class Actividad1Component implements OnInit {
         this.espectro.style.display="none";
         this.detectChanges();
         this.notification = null;
-        
+        // this.diagnosticPara.textContent = "";
+        console.log(this.finalTranscript);
+
       });
 
     this.speechRecognizer.onResult()
       .subscribe((data: SpeechNotification) => {
         const message = data.content.trim();
         if (data.info === 'final_transcript' && message.length > 0) {
-          this.finalTranscript = `${this.finalTranscript}\n${message}`;
+          this.finalTranscript = `${message}`;
+          // this.finalTranscript = `${this.finalTranscript}\n${message}`;          
           this.actionContext.processMessage(message, this.currentLanguage);
           this.detectChanges();
           this.actionContext.runAction(message, this.currentLanguage);
           // console.log(this.finalTranscript);
           var speechResult = this.finalTranscript.toLowerCase();
           this.diagnosticPara.textContent = '.' + speechResult + '.';
-
+          let acomparar:string;
+          acomparar = this.datos.act1[this.indiceFrase];
+          if (speechResult == acomparar.toLowerCase()){
+            console.log("Es correcto!!!");
+          }
+            
         }
       });
 
@@ -406,8 +422,9 @@ export class Actividad1Component implements OnInit {
     // this.phrase = this.phrase.toLowerCase();
     // this.phrase = this.phrase.trim();
     
-    var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + this.phrase +';';
-    var recognition = new SpeechRecognition();
+    var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase +';';
+    let recognition = new webkitSpeechRecognition();
+    // let recognition = new SpeechRecognition();                          ESTE VA
     var speechRecognitionList = new SpeechGrammarList();
     speechRecognitionList.addFromString(grammar, 1);
     recognition.grammars = speechRecognitionList;
@@ -417,7 +434,7 @@ export class Actividad1Component implements OnInit {
     
     recognition.start();
     
-    recognition.onresult = function(event) {
+    recognition.onresult = (event)=> {
       
       // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
       // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
@@ -427,72 +444,96 @@ export class Actividad1Component implements OnInit {
       // These also have getters so they can be accessed like arrays.
       // The second [0] returns the SpeechRecognitionAlternative at position 0.
       // We then return the transcript property of the SpeechRecognitionAlternative object
-      var speechResult = event.results[0][0].transcript.toLowerCase();
-      diagnosticPara.textContent = '.' + speechResult + '.';
-      var phrase2 = phrase;
-    phrase2 = phrase2.replace(/\?/g, "");
-    phrase2 = phrase2.replace(/-/g, "");
-    phrase2 = phrase2.replace(/,/g, "");
-    phrase2 = phrase2.replace(/\./g, "");
-    phrase2 = phrase2.replace(/\!/g, "");
+      let speechResult = event.results[0][0].transcript.toLowerCase();
+      this.diagnosticPara.textContent = '.' + speechResult + '.';
+      let phrase2 = phrase;
+      phrase2 = phrase2.replace(/\?/g, "");
+      phrase2 = phrase2.replace(/-/g, "");
+      phrase2 = phrase2.replace(/,/g, "");
+      phrase2 = phrase2.replace(/\./g, "");
+      phrase2 = phrase2.replace(/\!/g, "");
       if(speechResult === phrase2) {
         //resultPara.textContent = 'Frase dicha correctamente!';
         //resultPara.style.background = 'yellow';
         //divCorrecto.style.visibility= 'visible';
         //Fspeak2('ok');
-        ok.style.opacity='1';
-        // $("#ok").fadeIn(1000); //Despues de 2000
-        // $("#ok").fadeOut(4000);
-      fraseLeida.style.color= 'green';
+        // ok.style.opacity='1';                                    ESTE VA
+        // $("#ok").fadeIn(1000); //Despues de 2000                 ESTE VA
+        // $("#ok").fadeOut(4000);                                  ESTE VA
+      this.fraseLeida.style.color= 'green';
       //indiceFrase = indiceFrase + 1;
-      siguiente.style.display='block';
-      phrasePara.textContent = phrases[indiceFrase];
-      diagnosticPara.textContent = phrasePara.textContent;
-      resultado.style.visibility="hidden";
+      this.siguiente.style.display='block';
+      // this.phrasePara.textContent = phrases[indiceFrase];          ESTE VA
+      // this.diagnosticPara.textContent = phrasePara.textContent;    ESTE VA
+      this.resultado.style.visibility="hidden";
         
-        playSound(this, 'ok.mp3');
+        // playSound(this, 'ok.mp3');                                  ESTE VA
       } else {
         //resultPara.textContent = 'Eso no suena bien....';
         //resultPara.style.background = 'red';
         //divIncorrecto.style.visibility= 'visible';
-       //Fspeak2('try again');
-       tryAgain.style.opacity='1';
-     $("#tryAgain").fadeIn(1000); //Despues de 2000
-     $("#tryAgain").fadeOut(4000);
-    resultado.style.visibility="visible";	
-       contIncorrectas = contIncorrectas + 1;
-      fraseLeida.style.color= 'blue';
-      resultado.style.color= 'red';
-       playSound(this, 'tryagain.mp3');
-       if (contIncorrectas == 6)
-       {
-       contIncorrectas = 0
-       siguiente.style.display='block';
-       }
+        //Fspeak2('try again');
+        this.tryAgain.style.opacity='1';
+        //  $("#tryAgain").fadeIn(1000); //Despues de 2000                 ESTE VA
+        //  $("#tryAgain").fadeOut(4000);                                  ESTE VA
+        this.resultado.style.visibility="visible";	
+        this.contIncorrectas = this.contIncorrectas + 1;
+        this.fraseLeida.style.color= 'blue';
+        this.resultado.style.color= 'red';
+      //  playSound(this, 'tryagain.mp3');                             ESTE VA
+        if (this.contIncorrectas == 6)
+        {
+          this.contIncorrectas = 0
+          this.siguiente.style.display='block';
+        }
   
       }
       //resultado.textContent = ' <div class=\"container--compare-blocks\"><div class=\"compare-block compare-block-two\"><div class=\"block\" id=\"block2\"><p class=\"phrase\"></p></div></div><div class=\"compare-block compare-block-one\">	<div class=\"block\" id=\"block1\">	<p class=\"output\"></p></div></div><article class=\"container--diff\">	<section id=\"diff\" class=\"diff\"></section></article></div><script src=\"js/libs/jquery-1.11.1.min.js\" type=\"text/javascript\" charset=\"utf-8\"></script>	<script src=\"js/index.js\" type=\"text/javascript\" charset=\"utf-8\"></script>';
   
-     var texto = phrase;
-     var texto2 = speechResult;
+      let texto = phrase;
+      let texto2 = speechResult;
   
-      var result = checkDifferences(texto, texto2);
-      resultado.textContent = result.differences2.join('\n');
+      let result = this.checkDifferences(texto, texto2);
+      this.resultado.textContent = result.differences2.join('\n');
       /*phrasePara.textContent = texto + '\n' + result.differences2.join('\n');*/
       console.log('Confidencia: ' + event.results[0][0].confidence);
     }
-    
-
-
-  
-  
-  
-  
-  
-  
-  
-  
+      
   }
 
+  checkDifferences(text1, text2){
+    if (text1.length && text2.length){
+      let words1 = text1.split(' ');
+      let words2 = text2.split(' ');
+      // Busca la mayor coincidencia
+      for(let i=(words1.length > words2.length ? words2.length : words1.length); i > 0; i--){
+        for(let j=0; j<=words1.length - i; j++){
+          let pattern = words1.slice(j, j+i).join(' ');
+          let coincidence = text2.indexOf(pattern);
+          if (coincidence >= 0){
+            // Coincidencia encontrada
+            // Objeto diferencias de los textos anteriores a la coincidencia
+            let differencesBefore = this.checkDifferences(words1.slice(0, j).join(' '),
+                                        text2.substring(0, coincidence).trim());
+            // Objeto diferencias de los textos posteriores a la coincidencia
+            let differencesAfter = this.checkDifferences(words1.slice(j+i).join(' '),
+                                        text2.substring(coincidence + pattern.length).trim());
+            // Devuelve diferencias anteriores, posteriores y coincidencia actual
+            return{
+              differences1: differencesBefore.differences1.concat(differencesAfter.differences1),
+              differences2: differencesBefore.differences2.concat(differencesAfter.differences2),
+              coincidences: differencesBefore.coincidences.concat([pattern], differencesAfter.coincidences)
+            }
+          }
+        }
+      }
+    }
+    // No se ha encontrado coincidencias
+    return {
+      differences1: text1.length ? [text1] : [],
+      differences2: text2.length ? [text2] : [],
+      coincidences: []
+    };
+  }
 
 }

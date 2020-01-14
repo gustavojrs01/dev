@@ -10,6 +10,7 @@ export class Actividad3Component implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

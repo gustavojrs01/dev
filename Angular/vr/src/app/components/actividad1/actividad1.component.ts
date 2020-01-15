@@ -7,6 +7,8 @@ import { ActionContext } from "../shared/model/strategy/action-context";
 import { SpeechSynthesizerService } from "../shared/services/speech-synthesizer.service";
 import { LeccionesService, Lecciones } from "../shared/services/lecciones.service";
 import { AppWindow } from '../shared/model/app-window';
+import * as jsdiff from 'diff';
+
 const { webkitSpeechRecognition }: AppWindow = (window as any) as AppWindow;
 
 @Component({
@@ -88,6 +90,7 @@ export class Actividad1Component implements OnInit {
     this.tryAgain = <HTMLElement>document.getElementById('tryAgain');
     this.ok = <HTMLElement>document.getElementById('ok');
     this.next = <HTMLElement>document.getElementById('lnkNext');
+    this.resultadoDiff = <HTMLElement>document.getElementById("resultadoDiff");
     this.ok.style.display = "none";
     this.tryAgain.style.display = "none";
     // this.pFrase = <HTMLElement>document.getElementById('pFrase');    
@@ -112,7 +115,7 @@ export class Actividad1Component implements OnInit {
   tryAgain:HTMLElement;
   ok:HTMLElement;
   next:HTMLElement;
-
+  resultadoDiff:HTMLElement;
   // voiceSelect = document.querySelector('select');
   //var testBtn = document.querySelector('button');
   // testBtn = document.getElementById('botonEscucha');
@@ -138,7 +141,9 @@ export class Actividad1Component implements OnInit {
     document.getElementById('botonEscuchadiv').style.display="block";
     document.getElementById('btnStart').style.display="none";
     document.getElementById('ecogeVoz').style.visibility="visible";
-    document.getElementById('pFrase').style.display="block";  
+    document.getElementById('pFrase').style.display="block";
+    let diff = jsdiff.diffWords("Hello mundo1 mundo", "Hello a mundo");
+    console.log(diff);
   }
 
   siguienteFrase(){
@@ -146,9 +151,10 @@ export class Actividad1Component implements OnInit {
     this.siguiente.style.display = "none";
     this.contIncorrectas = 0;
     this.diagnosticPara.textContent = "";
-    if (this.indiceFrase == 12){
+    if (this.indiceFrase == 13){
       // alert("No hay mas palabras a mostrar");
       // this.router.navigate(['actividad2']);
+      this.diagnosticPara.textContent = "Good Job! Go to the next activity";
       this.next.style.display = "block";
     }
     // console.log(this.pFrase);
@@ -211,9 +217,16 @@ export class Actividad1Component implements OnInit {
           var speechResult = this.finalTranscript.toLowerCase();
           this.diagnosticPara.textContent = speechResult;
           // this.diagnosticPara.textContent = '.' + speechResult + '.';
-          let acomparar:string;
+          var acomparar:string;
+          let speechResultF:string;
           acomparar = this.datos.act1[this.indiceFrase];
-          if (speechResult == acomparar.toLowerCase()){
+          acomparar = acomparar.replace(/-/g,"");
+          acomparar = acomparar.replace(/,/g,"");
+          acomparar = acomparar.replace(/\./g,"");
+          acomparar = acomparar.replace(/!/g, "");
+          acomparar = acomparar.replace(/\?/g, "");
+          acomparar = acomparar.toLowerCase();
+          if (speechResult == acomparar){
             let playOk = new Audio;
             playOk.src = "/assets/audio/ok.mp3";
             playOk.volume = 0.05;
@@ -228,7 +241,7 @@ export class Actividad1Component implements OnInit {
           } else{            
             let playError = new Audio;
             playError.src = "/assets/audio/tryagain.mp3";
-            playError.volume = 0.02;
+            playError.volume = 0.05;
             playError.play();
             this.contIncorrectas=this.contIncorrectas+1;
             if (this.contIncorrectas == 3){
@@ -244,6 +257,12 @@ export class Actividad1Component implements OnInit {
 
             
         }
+
+        var texto = acomparar;
+        var texto2 = speechResult;
+        var result = this.checkDifferences(texto, texto2);
+        this.resultadoDiff.textContent = result.differences2.join('\n');
+
       });
 
     this.speechRecognizer.onError()
@@ -398,9 +417,9 @@ export class Actividad1Component implements OnInit {
       // These also have getters so they can be accessed like arrays.
       // The second [0] returns the SpeechRecognitionAlternative at position 0.
       // We then return the transcript property of the SpeechRecognitionAlternative object
-      let speechResult = event.results[0][0].transcript.toLowerCase();
+      var speechResult = event.results[0][0].transcript.toLowerCase();
       this.diagnosticPara.textContent = '.' + speechResult + '.';
-      let phrase2 = phrase;
+      var phrase2 = phrase;
       phrase2 = phrase2.replace(/\?/g, "");
       phrase2 = phrase2.replace(/-/g, "");
       phrase2 = phrase2.replace(/,/g, "");
@@ -444,18 +463,19 @@ export class Actividad1Component implements OnInit {
       }
       //resultado.textContent = ' <div class=\"container--compare-blocks\"><div class=\"compare-block compare-block-two\"><div class=\"block\" id=\"block2\"><p class=\"phrase\"></p></div></div><div class=\"compare-block compare-block-one\">	<div class=\"block\" id=\"block1\">	<p class=\"output\"></p></div></div><article class=\"container--diff\">	<section id=\"diff\" class=\"diff\"></section></article></div><script src=\"js/libs/jquery-1.11.1.min.js\" type=\"text/javascript\" charset=\"utf-8\"></script>	<script src=\"js/index.js\" type=\"text/javascript\" charset=\"utf-8\"></script>';
   
-      let texto = phrase;
-      let texto2 = speechResult;
+      
+      
   
-      let result = this.checkDifferences(texto, texto2);
-      this.resultado.textContent = result.differences2.join('\n');
+      let result = this.checkDifferences("phrase2", "speechResult");
+      // console.log(result);
+      // this.resultadoDiff.textContent = result.differences2.join('\n');
       /*phrasePara.textContent = texto + '\n' + result.differences2.join('\n');*/
-      console.log('Confidencia: ' + event.results[0][0].confidence);
+      // console.log('Confidencia: ' + event.results[0][0].confidence);
     }
       
   }
 
-  checkDifferences(text1, text2){
+  checkDifferences(text1:string, text2:string){
     if (text1.length && text2.length){
       let words1 = text1.split(' ');
       let words2 = text2.split(' ');
@@ -496,6 +516,10 @@ export class Actividad1Component implements OnInit {
 
   goToNextActivity(){
     this.router.navigate(["/actividad2"]);
+     
   }
+  
+
+
 
 }

@@ -37,12 +37,13 @@ export class LeccionesService {
 }
 
 export interface Lecciones {
-    curso:string,
-    unidad:string,
-    leccion:string,
-    act1:string[],
-    act2:string[],
-    act3:string[],
-    act4:string[],
-    act5:string[]
-  }
+    curso:string;
+    unidad:string;
+    leccion:string;
+    codigo:string;
+    act1:string[];
+    act2:string[];
+    act3:string[];
+    act4:string[];
+    act5:string[];
+  };

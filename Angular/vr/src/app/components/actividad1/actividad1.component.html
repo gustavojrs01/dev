@@ -1,9 +1,9 @@
 <div class="contenedor">
     <div class="cabecera">
       <div class="nombre">
-      <div class="DNNombre">{{cabecera.curso}}<p id="Pnombre"></p></div>
-        <div class="DNActividad">{{cabecera.unidad}}<p id="Pactividad"></p></div>
-        <div class="DNUnidad">{{cabecera.leccion}}<p id="Punidad"></p></div>
+      <div class="DNNombre">{{curso}}<p id="Pnombre"></p></div>
+        <div class="DNActividad">{{unidad}}<p id="Pactividad"></p></div>
+        <div class="DNUnidad">{{leccion}}<p id="Punidad"></p></div>
       </div>
       <div id="divInfo" class="info"></div>
     </div>
@@ -42,7 +42,7 @@
               <button id="botonEscucha" (click)="startButton($event)"></button>
             </div>
             <div id="siguiente" class="siguiente">
-              <button></button>
+              <button (click)="siguienteFrase()"></button>
             </div>
             <div id="espectro" class="espectro"></div>
           </div>
@@ -65,10 +65,12 @@
     <div class="pieIzq"></div>
     <div class="pieCentro">
       <div class="backNext">
-        <a href="index.php"><div class="back"></div></a>
-        <a id="lnkNext" href="../Actividad2/index.php"
-          ><div id="next" class="next"></div
-        ></a>
+        <div class="back" (click)="goToBackActivity()">
+          <!-- <button id="back" class="" (click)="goToHome()"></button> -->
+        </div>
+        <div class="next" id="lnkNext" (click)="goToNextActivity()">
+          <!-- <button id="next" class="next" ></button> -->
+        </div>          
       </div>
     </div>
     <div class="pieDer"></div>

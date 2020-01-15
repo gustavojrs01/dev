@@ -5,10 +5,9 @@ import { SpeechNotification } from "../shared/model/speech-notification";
 import { SpeechError } from "../shared/model/speech-error";
 import { ActionContext } from "../shared/model/strategy/action-context";
 import { SpeechSynthesizerService } from "../shared/services/speech-synthesizer.service";
-import { LeccionesService } from "../shared/services/lecciones.service";
+import { LeccionesService, Lecciones } from "../shared/services/lecciones.service";
 import { AppWindow } from '../shared/model/app-window';
 const { webkitSpeechRecognition }: AppWindow = (window as any) as AppWindow;
-
 
 @Component({
   selector: 'app-actividad1',
@@ -27,10 +26,12 @@ export class Actividad1Component implements OnInit {
   indiceFrase = 0;
   contIncorrectas = 0;
   voz:string = "h";
-  datos;  
+  datos:Lecciones;  
   act="act1";
   phrases = new Array();
-  
+  unidad:string;
+  leccion:string;
+  curso:string;  
 
   constructor(private router:Router,
               private changeDetector:ChangeDetectorRef,
@@ -40,6 +41,10 @@ export class Actividad1Component implements OnInit {
                 this.codigoLeccion = localStorage.getItem("codigoLeccion");
                 // this.leccionesService.getDatos(this.leccionesService.codigoLeccion);    Este Funciona
                 this.leccionesService.getDatos(localStorage.getItem("codigoLeccion"));
+
+                this.unidad = localStorage.getItem("unidad");
+                this.curso = localStorage.getItem("curso");
+                this.leccion = localStorage.getItem("leccion");
                 // this.datos= this.leccionesService.datos;
                 // this.codigoLeccion = this.leccionesService.datos.codigo;
                 // this.leccionesService.getDatos(this.codigoLeccion);
@@ -47,31 +52,24 @@ export class Actividad1Component implements OnInit {
                 // this.datos = this.leccionesService.getConfig("l8u1l3y4");
                 // this.leccionesService.codigoLeccion=this.codigoLeccion;               Este funciona
                 this.leccionesService.codigoLeccion=localStorage.getItem("codigoLeccion");
-                console.log("constructor");
-                // console.log(this.leccionesService.cargada);
                 console.log(localStorage.getItem("codigoLeccion"));
-                
-
               }
 
   ngOnInit() {
-    // this.leccionesService.getDatos(this.codigoLeccion);
-    // this.datos= this.leccionesService.datos;
-    this.currentLanguage = this.languages[0];
-    this.speechRecognizer.initialize(this.currentLanguage);
-    this.initRecognition();
-    this.notification = null;
-    
-        
-    document.getElementById("divInfo").addEventListener('mouseover', mostrarInfo1);
-    document.getElementById("divInfo").addEventListener('mouseout', ocultaInfo);
-
     function mostrarInfo1(){
 	    document.getElementById("contenedorInfo").className  = 'mostrarInfo';
     }
     function ocultaInfo(){
       document.getElementById("contenedorInfo").className  = "ocultaInfo";
     }
+    // this.leccionesService.getDatos(this.codigoLeccion);
+    // this.datos= this.leccionesService.datos;
+    this.currentLanguage = this.languages[0];
+    this.speechRecognizer.initialize(this.currentLanguage);
+    this.initRecognition();
+    this.notification = null;        
+    document.getElementById("divInfo").addEventListener('mouseover', mostrarInfo1);
+    document.getElementById("divInfo").addEventListener('mouseout', ocultaInfo);    
     // this.Punidad = document.getElementById('Punidad');
     this.phrasePara = document.querySelector('.phrase');
     this.resultPara = document.querySelector('.result');
@@ -88,80 +86,14 @@ export class Actividad1Component implements OnInit {
     this.fraseLeida = <HTMLElement>document.getElementById('fraseLeida');
     this.siguiente = <HTMLElement>document.getElementById('siguiente');
     this.tryAgain = <HTMLElement>document.getElementById('tryAgain');
-    // this.pFrase = <HTMLElement>document.getElementById('pFrase');
-    console.log("init");
-
-    
+    this.ok = <HTMLElement>document.getElementById('ok');
+    this.next = <HTMLElement>document.getElementById('lnkNext');
+    this.ok.style.display = "none";
+    this.tryAgain.style.display = "none";
+    // this.pFrase = <HTMLElement>document.getElementById('pFrase');    
   }
-
-  cabecera = {
-    "curso":"Level 8",
-    "unidad":"U2",
-    "leccion":"L 3-4"
-  }
-  leccion = {
-    "curso":"Level 8",
-    "unidad":"U1",
-    "leccion":"L 3-4",
-    "act1":[
-        "Email", 
-        "On", 
-        "Download", 
-        "Always", 
-        "Usually", 
-        "Generally", 
-        "Often", 
-        "Sometimes", 
-        "Occasionally",
-        "Hardly Ever",
-        "Never",
-        "Send Emails",
-        "Text messaging",
-        "Download"
-    ],
-    "act2":[
-        "I sent you an email",
-        "I texted my mom",
-        "I generally download music and movies",
-        "We always upload pictures to our social networks",
-        "I never send emails on Sunday",
-        "She often calls me on Friday",
-        "He opened his account in 2014"
-    ],
-    "act3":[
-        "Do you have a social media account?",
-        "Yes, I do! I opened it in 2016",
-        "I sent you an email",
-        "I last checked my email in December",
-        "Why?",
-        "Because, I forgot my password"
-    ],
-    "act4":"I always post pictures of my mom on December 15th, because it's her birthday. I talk to her every day at 6:00, when I get home. Sometimes, I check my phone and answer my emails in the afternoon.",
-    "act5":[
-        "Email",
-        "On",
-        "Download",
-        "Often",
-        "Sometimes",
-        "Occasionally",
-        "I texted my mom",
-        "I generally download music and movies",
-        "We always upload pictures to our social network",
-        "She often calls me on Friday",
-        "I opened it in 2016",
-        "I last checked my e-mail in December",
-        "I always use the same password for everything",
-        "I occasionally do that"
-    ]
-  }
- 
-
-
-
-
 
   pFrase;
-
   phrasePara:HTMLElement;
   resultPara:HTMLElement;
   diagnosticPara:HTMLParagraphElement;
@@ -178,34 +110,25 @@ export class Actividad1Component implements OnInit {
   fraseLeida:HTMLElement;
   siguiente:HTMLElement;
   tryAgain:HTMLElement;
+  ok:HTMLElement;
+  next:HTMLElement;
 
   // voiceSelect = document.querySelector('select');
-  // ok = document.getElementById('ok');
-  
-  
   //var testBtn = document.querySelector('button');
   // testBtn = document.getElementById('botonEscucha');
   // divInfo = document.getElementById('divInfo');
-  // btnStart = document.getElementById('btnStart');
+  // btnStart = document.getElementById('btnStart');  
   
-  // next = document.getElementById('next');
-  // contenedorInfo = document.getElementById('contenedorInfo');
-  
-  // lnkNext = document.getElementById('lnkNext');
-  
+  // contenedorInfo = document.getElementById('contenedorInfo');  
+  // lnkNext = document.getElementById('lnkNext');  
   // Punidad = document.getElementById('Punidad');
   // Pnombre = document.getElementById('Pnombre');
   // Pactividad = document.getElementById('Pactividad');
   // Punidad:HTMLElement;
-  
- 
-  
-  
-  
+
   start(){
     // this.leccionesService.getDatos(this.leccionesService.codigoLeccion);
-    this.datos= this.leccionesService.datos;
-    
+    this.datos= this.leccionesService.datos;    
     // console.log(this.datos);
     // this.btnPlay.style.visibility="visible";
     // this.pFrase.textContent = "Hola mundo";
@@ -215,20 +138,22 @@ export class Actividad1Component implements OnInit {
     document.getElementById('botonEscuchadiv').style.display="block";
     document.getElementById('btnStart').style.display="none";
     document.getElementById('ecogeVoz').style.visibility="visible";
-    document.getElementById('pFrase').style.display="block";
-  
+    document.getElementById('pFrase').style.display="block";  
   }
 
   siguienteFrase(){
-    // let cantidad = this.leccion.act1.length;
+    // let cantidad = this.leccion.act1.length;    
+    this.siguiente.style.display = "none";
+    this.contIncorrectas = 0;
+    this.diagnosticPara.textContent = "";
     if (this.indiceFrase == 12){
-      alert("No hay mas palabras a mostrar");
-      this.router.navigate(['actividad2']);
+      // alert("No hay mas palabras a mostrar");
+      // this.router.navigate(['actividad2']);
+      this.next.style.display = "block";
     }
     // console.log(this.pFrase);
     this.indiceFrase = this.indiceFrase+1;
     document.getElementById('pFrase').textContent = this.datos.act1[this.indiceFrase];
-
   }
 
   startButton(event) {
@@ -236,7 +161,6 @@ export class Actividad1Component implements OnInit {
       this.speechRecognizer.stop();
       return;
     }
-
     this.speechRecognizer.start(event.timeStamp);
   }
 
@@ -246,12 +170,15 @@ export class Actividad1Component implements OnInit {
   }
 
   private initRecognition() {
+    // this.finalTranscript="";
     this.speechRecognizer.onStart()
       .subscribe(data => {
         this.recognizing = true;
+        this.tryAgain.style.display = "none"
         this.espectro.style.display="block";
         this.notification = 'I\'m listening...';
         this.detectChanges();
+        this.diagnosticPara.style.color = "chocolate";
         this.diagnosticPara.textContent = "Listening"
       });
 
@@ -262,8 +189,13 @@ export class Actividad1Component implements OnInit {
         this.detectChanges();
         this.notification = null;
         // this.diagnosticPara.textContent = "";
+        // this.espectro.style.display = "none";
         console.log(this.finalTranscript);
-
+        if (this.finalTranscript=="" || this.finalTranscript==" " || this.finalTranscript== null ){
+          this.diagnosticPara.style.color = "firebrick";
+          this.diagnosticPara.textContent = "Oops, i didn't hear you, please try again";
+        }
+        this.finalTranscript="";
       });
 
     this.speechRecognizer.onResult()
@@ -277,12 +209,39 @@ export class Actividad1Component implements OnInit {
           this.actionContext.runAction(message, this.currentLanguage);
           // console.log(this.finalTranscript);
           var speechResult = this.finalTranscript.toLowerCase();
-          this.diagnosticPara.textContent = '.' + speechResult + '.';
+          this.diagnosticPara.textContent = speechResult;
+          // this.diagnosticPara.textContent = '.' + speechResult + '.';
           let acomparar:string;
           acomparar = this.datos.act1[this.indiceFrase];
           if (speechResult == acomparar.toLowerCase()){
-            console.log("Es correcto!!!");
+            let playOk = new Audio;
+            playOk.src = "/assets/audio/ok.mp3";
+            playOk.volume = 0.05;
+            playOk.play();
+            this.ok.style.display = "block";
+            setTimeout(()=>{
+              this.ok.style.display = "none";
+            }, 2000);
+            this.espectro.style.display = "none";
+            this.siguiente.style.display = "block";
+            this.diagnosticPara.style.color = "green";            
+          } else{            
+            let playError = new Audio;
+            playError.src = "/assets/audio/tryagain.mp3";
+            playError.volume = 0.02;
+            playError.play();
+            this.contIncorrectas=this.contIncorrectas+1;
+            if (this.contIncorrectas == 3){
+              this.siguiente.style.display= "block";
+            }
+            this.espectro.style.display = "none";
+            this.diagnosticPara.style.color = "firebrick";
+            this.tryAgain.style.display = "block";
+            setTimeout(()=>{
+              this.tryAgain.style.display = "none";
+            },5000);
           }
+
             
         }
       });
@@ -307,21 +266,21 @@ export class Actividad1Component implements OnInit {
             break;
         }
         this.recognizing = false;
-        this.detectChanges();
+        this.detectChanges();        
+        this.espectro.style.display = "none";
+        this.diagnosticPara.style.color="firebrick";
+        this.diagnosticPara.textContent=this.notification;
       });
   }
 
   detectChanges() {
     this.changeDetector.detectChanges();
   }
- 
 
   repro(){
     // this.datos= this.leccionesService.datos;
     this.speechSynthesizer.speak(this.datos.act1[this.indiceFrase],"en-US");    
   }
-  
-  
 
   escucha(){    
     //*************************************************************************************** */
@@ -334,9 +293,7 @@ export class Actividad1Component implements OnInit {
     //  });
     //   utterance.voice = speechSynthesis.getVoices()[3];
     //   speechSynthesis.speak(utterance);
-    //**************************************************************************************** */
-    
-    
+    //**************************************************************************************** */        
     this.datos= this.leccionesService.datos;
     this.vozHombre.disabled = true;
     this.vozMujer.disabled = true;
@@ -355,7 +312,6 @@ export class Actividad1Component implements OnInit {
   }
 
   playSound() {
-
     let sonido = new Audio();
     sonido.src = "/assets/audio/" + this.codigoLeccion + '/' + this.act + '/' + this.voz + '/' + this.indiceFrase + ".mp3";
     sonido.play();
@@ -365,9 +321,8 @@ export class Actividad1Component implements OnInit {
       this.play.disabled = false;
       this.audioEnd();
     });    
-  }
-  
-  
+  } 
+
   // playSound(el,soundfile) {
 	//   this.vozHombre.disabled = true;
   //   this.vozMujer.disabled = true;
@@ -412,7 +367,6 @@ export class Actividad1Component implements OnInit {
   //         act5: data['act5'],
   //     });
   // }
-
 
   reconocimiento(){
     let phrase = this.datos.act1[this.indiceFrase];
@@ -534,6 +488,14 @@ export class Actividad1Component implements OnInit {
       differences2: text2.length ? [text2] : [],
       coincidences: []
     };
+  }
+
+  goToBackActivity(){
+    this.router.navigate(["/home"]);
+  }
+
+  goToNextActivity(){
+    this.router.navigate(["/actividad2"]);
   }
 
 }

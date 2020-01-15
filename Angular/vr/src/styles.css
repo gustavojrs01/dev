@@ -258,7 +258,7 @@ color:#333;
 .next
 {
    /* background-image: url("imagenes/next.png"); */
-   background-image: url("assets/img/next.png");
+   background-image: url("/assets/img/next.png");
    background-size: cover;
    position:relative;
    width: 100px;
@@ -508,6 +508,9 @@ color:#333;
   background-size: cover;
   float: right;
   display: none;
+  position: relative;
+  right: 20px;
+  bottom: 5px;
 }
 .siguiente button
 {
@@ -546,7 +549,7 @@ color:#333;
   	top :150px;
   	left:50%;
 	transform: translateX(-50%);
-	opacity: 0;
+	/* opacity: 0; */
 }
 
 #tryAgain
@@ -561,7 +564,7 @@ color:#333;
   	top :70px;
   	left:50%;
 	transform: translateX(-50%);
-	opacity: 0;
+	/* opacity: 0; */
 }
 
 .output {

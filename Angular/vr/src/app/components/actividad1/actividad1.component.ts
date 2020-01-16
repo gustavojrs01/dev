@@ -33,7 +33,8 @@ export class Actividad1Component implements OnInit {
   phrases = new Array();
   unidad:string;
   leccion:string;
-  curso:string;  
+  curso:string;
+  actividadCompletada = false;  
 
   constructor(private router:Router,
               private changeDetector:ChangeDetectorRef,
@@ -47,6 +48,7 @@ export class Actividad1Component implements OnInit {
                 this.unidad = localStorage.getItem("unidad");
                 this.curso = localStorage.getItem("curso");
                 this.leccion = localStorage.getItem("leccion");
+                this.actividadCompletada = this.validarLeccionCompletada(localStorage.getItem("actividad1completada"));
                 // this.datos= this.leccionesService.datos;
                 // this.codigoLeccion = this.leccionesService.datos.codigo;
                 // this.leccionesService.getDatos(this.codigoLeccion);
@@ -91,11 +93,15 @@ export class Actividad1Component implements OnInit {
     this.ok = <HTMLElement>document.getElementById('ok');
     this.next = <HTMLElement>document.getElementById('lnkNext');
     this.resultadoDiff = <HTMLElement>document.getElementById("resultadoDiff");
+    this.display = document.getElementById('display');
     this.ok.style.display = "none";
     this.tryAgain.style.display = "none";
+    this.resultadoDiff.textContent = "";
+    this.output = <HTMLParagraphElement>document.getElementById('output');
     // this.pFrase = <HTMLElement>document.getElementById('pFrase');    
   }
 
+  display:HTMLElement;
   pFrase;
   phrasePara:HTMLElement;
   resultPara:HTMLElement;
@@ -116,6 +122,7 @@ export class Actividad1Component implements OnInit {
   ok:HTMLElement;
   next:HTMLElement;
   resultadoDiff:HTMLElement;
+  output:HTMLParagraphElement;
   // voiceSelect = document.querySelector('select');
   //var testBtn = document.querySelector('button');
   // testBtn = document.getElementById('botonEscucha');
@@ -141,9 +148,8 @@ export class Actividad1Component implements OnInit {
     document.getElementById('botonEscuchadiv').style.display="block";
     document.getElementById('btnStart').style.display="none";
     document.getElementById('ecogeVoz').style.visibility="visible";
-    document.getElementById('pFrase').style.display="block";
-    let diff = jsdiff.diffWords("Hello mundo1 mundo", "Hello a mundo");
-    console.log(diff);
+    document.getElementById('pFrase').style.display="block";    
+    
   }
 
   siguienteFrase(){
@@ -151,13 +157,17 @@ export class Actividad1Component implements OnInit {
     this.siguiente.style.display = "none";
     this.contIncorrectas = 0;
     this.diagnosticPara.textContent = "";
+    this.resultadoDiff.textContent = "";
     if (this.indiceFrase == 13){
       // alert("No hay mas palabras a mostrar");
       // this.router.navigate(['actividad2']);
+      this.siguiente.style.display = "none";
       this.diagnosticPara.textContent = "Good Job! Go to the next activity";
-      this.next.style.display = "block";
+      localStorage.setItem("actividad1completada", "true");
+      this.actividadCompletada = this.validarLeccionCompletada(localStorage.getItem("actividad1completada"));
+      // this.next.style.display = "block";
     }
-    // console.log(this.pFrase);
+    console.log(this.actividadCompletada);
     this.indiceFrase = this.indiceFrase+1;
     document.getElementById('pFrase').textContent = this.datos.act1[this.indiceFrase];
   }
@@ -183,16 +193,16 @@ export class Actividad1Component implements OnInit {
         this.tryAgain.style.display = "none"
         this.espectro.style.display="block";
         this.notification = 'I\'m listening...';
-        this.detectChanges();
         this.diagnosticPara.style.color = "chocolate";
-        this.diagnosticPara.textContent = "Listening"
+        this.diagnosticPara.textContent = "Listening";
+        this.resultadoDiff.textContent = "";
+        this.detectChanges();
       });
 
     this.speechRecognizer.onEnd()
       .subscribe(data => {
         this.recognizing = false;
         this.espectro.style.display="none";
-        this.detectChanges();
         this.notification = null;
         // this.diagnosticPara.textContent = "";
         // this.espectro.style.display = "none";
@@ -202,6 +212,7 @@ export class Actividad1Component implements OnInit {
           this.diagnosticPara.textContent = "Oops, i didn't hear you, please try again";
         }
         this.finalTranscript="";
+        this.detectChanges();
       });
 
     this.speechRecognizer.onResult()
@@ -211,12 +222,9 @@ export class Actividad1Component implements OnInit {
           this.finalTranscript = `${message}`;
           // this.finalTranscript = `${this.finalTranscript}\n${message}`;          
           this.actionContext.processMessage(message, this.currentLanguage);
-          this.detectChanges();
           this.actionContext.runAction(message, this.currentLanguage);
-          // console.log(this.finalTranscript);
           var speechResult = this.finalTranscript.toLowerCase();
-          this.diagnosticPara.textContent = speechResult;
-          // this.diagnosticPara.textContent = '.' + speechResult + '.';
+          this.diagnosticPara.textContent = this.datos.act1[this.indiceFrase];
           var acomparar:string;
           let speechResultF:string;
           acomparar = this.datos.act1[this.indiceFrase];
@@ -237,31 +245,49 @@ export class Actividad1Component implements OnInit {
             }, 2000);
             this.espectro.style.display = "none";
             this.siguiente.style.display = "block";
-            this.diagnosticPara.style.color = "green";            
-          } else{            
-            let playError = new Audio;
-            playError.src = "/assets/audio/tryagain.mp3";
-            playError.volume = 0.05;
-            playError.play();
-            this.contIncorrectas=this.contIncorrectas+1;
-            if (this.contIncorrectas == 3){
-              this.siguiente.style.display= "block";
+            this.diagnosticPara.style.color = "green";
+            this.recognizing = false;                         //   ESTE ES NUEVO, TEST ERROR            
+          } else{
+            this.diagnosticPara.textContent = "";            
+            let diff = jsdiff.diffWords(acomparar, speechResult);
+            // var display = document.getElementById('display');
+            var fragment = document.createDocumentFragment();
+            diff.forEach(function(part){
+              let color = part.added ? 'red' :
+              part.removed ? 'black' : 'green';
+              let tdecoration = part.added ? "none" : part.removed ? "line-through" : "none";
+              
+              var span = document.createElement('span');
+              span.style.color = color;
+              span.style.textDecoration = tdecoration;
+              span.appendChild(document
+                .createTextNode(part.value));
+                fragment.appendChild(span);
+              });
+              // this.display.appendChild(fragment);
+              this.output.appendChild(fragment);
+              console.log(diff);
+              let playError = new Audio;
+              playError.src = "/assets/audio/tryagain.mp3";
+              playError.volume = 0.05;
+              playError.play();
+              this.contIncorrectas=this.contIncorrectas+1;
+              if (this.contIncorrectas == 3){
+                this.siguiente.style.display= "block";
+              }
+              this.espectro.style.display = "none";
+              this.diagnosticPara.style.color = "firebrick";
+              this.tryAgain.style.display = "block";
+              setTimeout(()=>{
+                this.tryAgain.style.display = "none";
+              },5000);
+              this.recognizing = false;                       //Este es nuevo TEST ERROR
             }
-            this.espectro.style.display = "none";
-            this.diagnosticPara.style.color = "firebrick";
-            this.tryAgain.style.display = "block";
-            setTimeout(()=>{
-              this.tryAgain.style.display = "none";
-            },5000);
-          }
-
             
-        }
-
-        var texto = acomparar;
-        var texto2 = speechResult;
-        var result = this.checkDifferences(texto, texto2);
-        this.resultadoDiff.textContent = result.differences2.join('\n');
+            
+          }
+          
+          this.detectChanges();
 
       });
 
@@ -285,10 +311,11 @@ export class Actividad1Component implements OnInit {
             break;
         }
         this.recognizing = false;
-        this.detectChanges();        
         this.espectro.style.display = "none";
         this.diagnosticPara.style.color="firebrick";
         this.diagnosticPara.textContent=this.notification;
+        
+        this.detectChanges();        
       });
   }
 
@@ -372,6 +399,15 @@ export class Actividad1Component implements OnInit {
     this.voz= '0';
     this.escucha();
   } 
+  
+  goToBackActivity(){
+    this.router.navigate(["/home"]);
+  }
+
+  goToNextActivity(){
+    this.router.navigate(["/actividad2"]);
+     
+  }
 
   // showConfig() {
   //   this.leccionesService.getConfig(this.codigoLeccion)
@@ -386,139 +422,102 @@ export class Actividad1Component implements OnInit {
   //         act5: data['act5'],
   //     });
   // }
-
-  reconocimiento(){
-    let phrase = this.datos.act1[this.indiceFrase];
-    this.espectro.style.display="block";
-    this.diagnosticPara.textContent = "Listening";
-    this.resultado.textContent = '';
-    // this.phrase = this.phrase.toLowerCase();
-    // this.phrase = this.phrase.trim();
+  
+  // reconocimiento(){
+    //   let phrase = this.datos.act1[this.indiceFrase];
+    //   this.espectro.style.display="block";
+    //   this.diagnosticPara.textContent = "Listening";
+    //   this.resultado.textContent = '';
+    //   // this.phrase = this.phrase.toLowerCase();
+    //   // this.phrase = this.phrase.trim();
     
-    var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase +';';
-    let recognition = new webkitSpeechRecognition();
-    // let recognition = new SpeechRecognition();                          ESTE VA
-    var speechRecognitionList = new SpeechGrammarList();
-    speechRecognitionList.addFromString(grammar, 1);
-    recognition.grammars = speechRecognitionList;
-    recognition.lang = 'en-US';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
+    //   var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ' + phrase +';';
+  //   let recognition = new webkitSpeechRecognition();
+  //   // let recognition = new SpeechRecognition();                          ESTE VA
+  //   var speechRecognitionList = new SpeechGrammarList();
+  //   speechRecognitionList.addFromString(grammar, 1);
+  //   recognition.grammars = speechRecognitionList;
+  //   recognition.lang = 'en-US';
+  //   recognition.interimResults = false;
+  //   recognition.maxAlternatives = 1;
     
-    recognition.start();
+  //   recognition.start();
     
-    recognition.onresult = (event)=> {
+  //   recognition.onresult = (event)=> {
       
-      // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
-      // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
-      // It has a getter so it can be accessed like an array
-      // The first [0] returns the SpeechRecognitionResult at position 0.
-      // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
-      // These also have getters so they can be accessed like arrays.
-      // The second [0] returns the SpeechRecognitionAlternative at position 0.
-      // We then return the transcript property of the SpeechRecognitionAlternative object
-      var speechResult = event.results[0][0].transcript.toLowerCase();
-      this.diagnosticPara.textContent = '.' + speechResult + '.';
-      var phrase2 = phrase;
-      phrase2 = phrase2.replace(/\?/g, "");
-      phrase2 = phrase2.replace(/-/g, "");
-      phrase2 = phrase2.replace(/,/g, "");
-      phrase2 = phrase2.replace(/\./g, "");
-      phrase2 = phrase2.replace(/\!/g, "");
-      if(speechResult === phrase2) {
-        //resultPara.textContent = 'Frase dicha correctamente!';
-        //resultPara.style.background = 'yellow';
-        //divCorrecto.style.visibility= 'visible';
-        //Fspeak2('ok');
-        // ok.style.opacity='1';                                    ESTE VA
-        // $("#ok").fadeIn(1000); //Despues de 2000                 ESTE VA
-        // $("#ok").fadeOut(4000);                                  ESTE VA
-      this.fraseLeida.style.color= 'green';
-      //indiceFrase = indiceFrase + 1;
-      this.siguiente.style.display='block';
-      // this.phrasePara.textContent = phrases[indiceFrase];          ESTE VA
-      // this.diagnosticPara.textContent = phrasePara.textContent;    ESTE VA
-      this.resultado.style.visibility="hidden";
+  //     // The SpeechRecognitionEvent results property returns a SpeechRecognitionResultList object
+  //     // The SpeechRecognitionResultList object contains SpeechRecognitionResult objects.
+  //     // It has a getter so it can be accessed like an array
+  //     // The first [0] returns the SpeechRecognitionResult at position 0.
+  //     // Each SpeechRecognitionResult object contains SpeechRecognitionAlternative objects that contain individual results.
+  //     // These also have getters so they can be accessed like arrays.
+  //     // The second [0] returns the SpeechRecognitionAlternative at position 0.
+  //     // We then return the transcript property of the SpeechRecognitionAlternative object
+  //     var speechResult = event.results[0][0].transcript.toLowerCase();
+  //     this.diagnosticPara.textContent = '.' + speechResult + '.';
+  //     var phrase2 = phrase;
+  //     phrase2 = phrase2.replace(/\?/g, "");
+  //     phrase2 = phrase2.replace(/-/g, "");
+  //     phrase2 = phrase2.replace(/,/g, "");
+  //     phrase2 = phrase2.replace(/\./g, "");
+  //     phrase2 = phrase2.replace(/\!/g, "");
+  //     if(speechResult === phrase2) {
+  //       //resultPara.textContent = 'Frase dicha correctamente!';
+  //       //resultPara.style.background = 'yellow';
+  //       //divCorrecto.style.visibility= 'visible';
+  //       //Fspeak2('ok');
+  //       // ok.style.opacity='1';                                    ESTE VA
+  //       // $("#ok").fadeIn(1000); //Despues de 2000                 ESTE VA
+  //       // $("#ok").fadeOut(4000);                                  ESTE VA
+  //     this.fraseLeida.style.color= 'green';
+  //     //indiceFrase = indiceFrase + 1;
+  //     this.siguiente.style.display='block';
+  //     // this.phrasePara.textContent = phrases[indiceFrase];          ESTE VA
+  //     // this.diagnosticPara.textContent = phrasePara.textContent;    ESTE VA
+  //     this.resultado.style.visibility="hidden";
         
-        // playSound(this, 'ok.mp3');                                  ESTE VA
-      } else {
-        //resultPara.textContent = 'Eso no suena bien....';
-        //resultPara.style.background = 'red';
-        //divIncorrecto.style.visibility= 'visible';
-        //Fspeak2('try again');
-        this.tryAgain.style.opacity='1';
-        //  $("#tryAgain").fadeIn(1000); //Despues de 2000                 ESTE VA
-        //  $("#tryAgain").fadeOut(4000);                                  ESTE VA
-        this.resultado.style.visibility="visible";	
-        this.contIncorrectas = this.contIncorrectas + 1;
-        this.fraseLeida.style.color= 'blue';
-        this.resultado.style.color= 'red';
-      //  playSound(this, 'tryagain.mp3');                             ESTE VA
-        if (this.contIncorrectas == 6)
-        {
-          this.contIncorrectas = 0
-          this.siguiente.style.display='block';
-        }
+  //       // playSound(this, 'ok.mp3');                                  ESTE VA
+  //     } else {
+  //       //resultPara.textContent = 'Eso no suena bien....';
+  //       //resultPara.style.background = 'red';
+  //       //divIncorrecto.style.visibility= 'visible';
+  //       //Fspeak2('try again');
+  //       this.tryAgain.style.opacity='1';
+  //       //  $("#tryAgain").fadeIn(1000); //Despues de 2000                 ESTE VA
+  //       //  $("#tryAgain").fadeOut(4000);                                  ESTE VA
+  //       this.resultado.style.visibility="visible";	
+  //       this.contIncorrectas = this.contIncorrectas + 1;
+  //       this.fraseLeida.style.color= 'blue';
+  //       this.resultado.style.color= 'red';
+  //     //  playSound(this, 'tryagain.mp3');                             ESTE VA
+  //       if (this.contIncorrectas == 6)
+  //       {
+  //         this.contIncorrectas = 0
+  //         this.siguiente.style.display='block';
+  //       }
   
-      }
-      //resultado.textContent = ' <div class=\"container--compare-blocks\"><div class=\"compare-block compare-block-two\"><div class=\"block\" id=\"block2\"><p class=\"phrase\"></p></div></div><div class=\"compare-block compare-block-one\">	<div class=\"block\" id=\"block1\">	<p class=\"output\"></p></div></div><article class=\"container--diff\">	<section id=\"diff\" class=\"diff\"></section></article></div><script src=\"js/libs/jquery-1.11.1.min.js\" type=\"text/javascript\" charset=\"utf-8\"></script>	<script src=\"js/index.js\" type=\"text/javascript\" charset=\"utf-8\"></script>';
+  //     }
+  //     //resultado.textContent = ' <div class=\"container--compare-blocks\"><div class=\"compare-block compare-block-two\"><div class=\"block\" id=\"block2\"><p class=\"phrase\"></p></div></div><div class=\"compare-block compare-block-one\">	<div class=\"block\" id=\"block1\">	<p class=\"output\"></p></div></div><article class=\"container--diff\">	<section id=\"diff\" class=\"diff\"></section></article></div><script src=\"js/libs/jquery-1.11.1.min.js\" type=\"text/javascript\" charset=\"utf-8\"></script>	<script src=\"js/index.js\" type=\"text/javascript\" charset=\"utf-8\"></script>';
   
       
       
   
-      let result = this.checkDifferences("phrase2", "speechResult");
-      // console.log(result);
-      // this.resultadoDiff.textContent = result.differences2.join('\n');
-      /*phrasePara.textContent = texto + '\n' + result.differences2.join('\n');*/
-      // console.log('Confidencia: ' + event.results[0][0].confidence);
+      
+  //     // console.log(result);
+  //     // this.resultadoDiff.textContent = result.differences2.join('\n');
+  //     /*phrasePara.textContent = texto + '\n' + result.differences2.join('\n');*/
+  //     // console.log('Confidencia: ' + event.results[0][0].confidence);
+  //   }
+      
+  // }  
+
+  validarLeccionCompletada(variable:string){
+    if (variable == "true"){
+      return true;
+    } else{
+      return false;
     }
-      
   }
-
-  checkDifferences(text1:string, text2:string){
-    if (text1.length && text2.length){
-      let words1 = text1.split(' ');
-      let words2 = text2.split(' ');
-      // Busca la mayor coincidencia
-      for(let i=(words1.length > words2.length ? words2.length : words1.length); i > 0; i--){
-        for(let j=0; j<=words1.length - i; j++){
-          let pattern = words1.slice(j, j+i).join(' ');
-          let coincidence = text2.indexOf(pattern);
-          if (coincidence >= 0){
-            // Coincidencia encontrada
-            // Objeto diferencias de los textos anteriores a la coincidencia
-            let differencesBefore = this.checkDifferences(words1.slice(0, j).join(' '),
-                                        text2.substring(0, coincidence).trim());
-            // Objeto diferencias de los textos posteriores a la coincidencia
-            let differencesAfter = this.checkDifferences(words1.slice(j+i).join(' '),
-                                        text2.substring(coincidence + pattern.length).trim());
-            // Devuelve diferencias anteriores, posteriores y coincidencia actual
-            return{
-              differences1: differencesBefore.differences1.concat(differencesAfter.differences1),
-              differences2: differencesBefore.differences2.concat(differencesAfter.differences2),
-              coincidences: differencesBefore.coincidences.concat([pattern], differencesAfter.coincidences)
-            }
-          }
-        }
-      }
-    }
-    // No se ha encontrado coincidencias
-    return {
-      differences1: text1.length ? [text1] : [],
-      differences2: text2.length ? [text2] : [],
-      coincidences: []
-    };
-  }
-
-  goToBackActivity(){
-    this.router.navigate(["/home"]);
-  }
-
-  goToNextActivity(){
-    this.router.navigate(["/actividad2"]);
-     
-  }
-  
 
 
 

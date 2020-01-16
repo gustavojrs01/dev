@@ -357,7 +357,7 @@ color:#333;
 .espectro
 {
   /* width: 100px; */
-  width: 70px;
+  width: 75px;
   height: 50px;
   /* background-image: url("imagenes/spectro3.gif"); */
   background-image: url("assets/img/spectro3.gif");
@@ -567,11 +567,17 @@ color:#333;
 	/* opacity: 0; */
 }
 
-.output {
+  .output {
     position: relative;
-    top: 29px;
+    /* top: 29px; */
+
   }
   
+  #output{
+    top: 120px;
+    font-size: 1.4em;
+  }
+
   .resultado {
     position: relative;
     top: 60px;

@@ -13,9 +13,16 @@ export class HomeComponent implements OnInit {
   mostrarLeccionesU2 = false;
   mostrarLeccionesU3 = false;
   mostrarLeccionesU4 = false;
+  actividad1completada;
+  actividad2completada;
+  actividad3completada;
+  actividad4completada;
+  actividad5completada;
 
   constructor(private leccionesService:LeccionesService,
-              private router:Router) { }
+              private router:Router) { 
+                localStorage.setItem("actividad1completada", "false");
+              }
 
   ngOnInit() {
     

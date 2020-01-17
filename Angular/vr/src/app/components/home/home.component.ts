@@ -74,113 +74,152 @@ export class HomeComponent implements OnInit {
     localStorage.setItem("leccion", "L 1-2");
     localStorage.setItem("unidad", "U1");
     localStorage.setItem("curso", "Level 8");
-
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 1");
+    localStorage.setItem("leccionContenido", "Lesson: 1 & 2");
+    localStorage.setItem("linea1Contenido", "Wh- questions");
+    localStorage.setItem("linea2Contenido", "Information and");
+    localStorage.setItem("linea3Contenido", "communication technologies");
+    this.router.navigate(["/contenido"]);
   }
   u1l3y4(){
     localStorage.setItem("codigoLeccion", "l8u1l3y4");
     localStorage.setItem("leccion", "L 3-4");
     localStorage.setItem("unidad", "U1");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 1");
+    localStorage.setItem("leccionContenido", "Lesson: 3 & 4");
+    localStorage.setItem("linea1Contenido", "Prepositions of time");
+    localStorage.setItem("linea2Contenido", "Frequency adverbs");
+    localStorage.setItem("linea3Contenido", "");
+    this.router.navigate(["/contenido"]);
   }
   u1l5y6(){
     localStorage.setItem("codigoLeccion", "l8u1l5y6");
     localStorage.setItem("leccion", "L 5-6");
     localStorage.setItem("unidad", "U1");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 1");
+    localStorage.setItem("leccionContenido", "Lesson: 5 & 6");
+    localStorage.setItem("linea1Contenido", "Possessive adjectives");
+    localStorage.setItem("linea2Contenido", "Should / Shouldn't");
+    localStorage.setItem("linea3Contenido", "");    
+    this.router.navigate(["/contenido"]);
   }
   u1l7y8(){
     localStorage.setItem("codigoLeccion", "l8u1l7y8");
     localStorage.setItem("leccion", "L 7-8");
     localStorage.setItem("unidad", "U1");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 1");
+    localStorage.setItem("leccionContenido", "Lesson: 7 & 8");
+    localStorage.setItem("linea1Contenido", "Phonetics: Î¸ and Ã°");
+    localStorage.setItem("linea2Contenido", "Review");
+    localStorage.setItem("linea3Contenido", "");
+    this.router.navigate(["/contenido"]);
   }
   u2l1y2(){
     localStorage.setItem("codigoLeccion", "l8u2l1y2");
     localStorage.setItem("leccion", "L 1-2");
     localStorage.setItem("unidad", "U2");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 2");
+    localStorage.setItem("leccionContenido", "Lesson: 1 & 2");
+    localStorage.setItem("linea1Contenido", "Countries");
+    localStorage.setItem("linea2Contenido", "Nationalities");
+    localStorage.setItem("linea3Contenido", "Languages");
+    this.router.navigate(["/contenido"]);
   }
   u2l3y4(){
     localStorage.setItem("codigoLeccion", "l8u2l3y4");
     localStorage.setItem("leccion", "L 3-4");
     localStorage.setItem("unidad", "U2");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 2");
+    localStorage.setItem("leccionContenido", "Lesson: 3 & 4");
+    localStorage.setItem("linea1Contenido", "Adjectives");
+    localStorage.setItem("linea2Contenido", "Comparatives");
+    localStorage.setItem("linea3Contenido", "");
+    this.router.navigate(["/contenido"]);
   }
   u2l5y6(){
     localStorage.setItem("codigoLeccion", "l8u2l5y6");
     localStorage.setItem("leccion", "L 5-6");
     localStorage.setItem("unidad", "U2");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 2");
+    localStorage.setItem("leccionContenido", "Lesson: 5 & 6");
+    localStorage.setItem("linea1Contenido", "Superlatives");
+    localStorage.setItem("linea2Contenido", "Chilean traditions: Easter Island");
+    localStorage.setItem("linea3Contenido", "");
+    this.router.navigate(["/contenido"]);
   }
   u2l7y8(){
     localStorage.setItem("codigoLeccion", "l8u2l7y8");
     localStorage.setItem("leccion", "L 7-8");
     localStorage.setItem("unidad", "U2");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    localStorage.setItem("tituloContenido", "Level 8 Unit 2");
+    localStorage.setItem("leccionContenido", "Lesson: 7 & 8");
+    localStorage.setItem("linea1Contenido", "Make v/s Do");
+    localStorage.setItem("linea2Contenido", "Review");
+    localStorage.setItem("linea3Contenido", "");
+    this.router.navigate(["/contenido"]);
   }
   u3l1y2(){
     localStorage.setItem("codigoLeccion", "l8u3l1y2");
     localStorage.setItem("leccion", "L 1-2");
     localStorage.setItem("unidad", "U3");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u3l3y4(){
     localStorage.setItem("codigoLeccion", "l8u3l3y4");
     localStorage.setItem("leccion", "L 3-4");
     localStorage.setItem("unidad", "U3");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u3l5y6(){
     localStorage.setItem("codigoLeccion", "l8u3l5y6");
     localStorage.setItem("leccion", "L 5-6");
     localStorage.setItem("unidad", "U3");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u3l7y8(){
     localStorage.setItem("codigoLeccion", "l8u3l7y8");
     localStorage.setItem("leccion", "L 7-8");
     localStorage.setItem("unidad", "U3");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u4l1y2(){
     localStorage.setItem("codigoLeccion", "l8u4l1y2");
     localStorage.setItem("leccion", "L 1-2");
     localStorage.setItem("unidad", "U4");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u4l3y4(){
     localStorage.setItem("codigoLeccion", "l8u4l3y4");
     localStorage.setItem("leccion", "L 3-4");
     localStorage.setItem("unidad", "U4");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u4l5y6(){
     localStorage.setItem("codigoLeccion", "l8u4l5y6");
     localStorage.setItem("leccion", "L 5-6");
     localStorage.setItem("unidad", "U4");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
   u4l7y8(){
     localStorage.setItem("codigoLeccion", "l8u4l7y8");
     localStorage.setItem("leccion", "L 7-8");
     localStorage.setItem("unidad", "U4");
     localStorage.setItem("curso", "Level 8");
-    this.router.navigate(["/actividad1"]);
+    this.router.navigate(["/contenido"]);
   }
 
 

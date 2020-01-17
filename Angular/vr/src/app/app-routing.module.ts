@@ -7,6 +7,8 @@ import { Actividad3Component } from "./components/actividad3/actividad3.componen
 import { Actividad4Component } from "./components/actividad4/actividad4.component";
 import { Actividad5Component } from "./components/actividad5/actividad5.component";
 import { Unidad1Component } from "./components/unidad1/unidad1.component";
+import { TestComponent } from "./components/test/test.component";
+import { ContenidoComponent } from "./components/contenido/contenido.component";
 
 
 const routes: Routes = [
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'actividad4', component: Actividad4Component },
   { path: 'actividad5', component: Actividad5Component },
   { path: 'unidad1', component: Unidad1Component },
+  { path: 'test', component: TestComponent },
+  { path: 'contenido', component: ContenidoComponent },
   { path: '', pathMatch:'full', redirectTo:"home" }
 ];
 

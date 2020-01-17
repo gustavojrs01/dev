@@ -1,0 +1,34 @@
+<div class="contenedor" id="contenedor">
+    <div id="contenedorFrase">
+        <div id="fraseIntermedia">
+            <div class="phrase">
+            <div><br><b><i><h1 style="font-size:2em;">{{tituloContenido}}</h1></i></b><h3>{{leccionContenido}}<br>Contents:<br>{{linea1Contenido}}<br>{{linea2Contenido}}<br>{{linea3Contenido}}</h3></div>
+            </div>
+        </div>
+    </div>
+    <div id="contenedorFrase2">
+        <div id="fraseIntermedia2">
+            <div class="phrase">
+                <div style="text-align: -webkit-center; position: relative; top: 14px;"><br><b><i><h1 class="tituloColor">COLORS</h1></i></b>
+                <div class="lista">
+                  <span style="background-color:beige;"> Beige </span>
+                  <span style="background-color:black;"> Black </span><span style="background-color:blue;"> Blue </span><span style="background-color:brown;"> Brown </span><span style="background-color:chocolate;"> Chocolate </span><span style="background-color:gold;"> Gold </span><span style="background-color:green;"> Green </span><span style="background-color:ivory;"> Ivory </span><span style="background-color:yellow;"> Yellow </span><span style="background-color:maroon;"> Maroon </span><span style="background-color:navy;"> Navy </span><span style="background-color:olive;"> Olive </span><span style="background-color:orange;"> Orange </span><span style="background-color:pink;"> Pink </span><span style="background-color:plum;"> Plum </span><span style="background-color:purple;"> Purple </span><span style="background-color:red;"> Red </span><span style="background-color:silver;"> Silver </span><span style="background-color:violet;"> Violet </span><span style="background-color:white;"> White </span><span style="background-color:magenta;"> Magenta </span>
+                </div>
+                <h3 class="instrucciones" id="instrucciones" style="width: 280px;">Say a color out loud and<br>customize your background</h3>
+                </div>
+                <div id="containerBoton">
+                    <button class="button" id="botonEscucha" (click)="startButton($event)"></button>
+                    <div id="blink">Try!</div>
+                    <div id="espectro" class="espectro" style="top:-148px;left:156px"></div>
+                </div>
+                <div id="listening" style="display:none; color:Green; font-size:40px; position:relative; bottom:155px; left:16px;">Listening</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="backNext">
+        <div class="next" (click)="goToNextActivity()"></div>
+    </div>        
+    <p class="hints" style="display:none;">Tap/click then say a color to change the background color of the app. Try <span style="background-color:beige;"> beige </span><span style="background-color:black;"> black </span><span style="background-color:blue;"> blue </span><span style="background-color:brown;"> brown </span><span style="background-color:chocolate;"> chocolate </span><span style="background-color:gold;"> gold </span><span style="background-color:gray;"> gray </span><span style="background-color:green;"> green </span><span style="background-color:indigo;"> indigo </span><span style="background-color:ivory;"> ivory </span><span style="background-color:magenta;"> magenta </span><span style="background-color:maroon;"> maroon </span><span style="background-color:navy;"> navy </span><span style="background-color:olive;"> olive </span><span style="background-color:orange;"> orange </span><span style="background-color:pink;"> pink </span><span style="background-color:plum;"> plum </span><span style="background-color:purple;"> purple </span><span style="background-color:red;"> red </span><span style="background-color:silver;"> silver </span><span style="background-color:violet;"> violet </span><span style="background-color:white;"> white </span><span style="background-color:yellow;"> yellow </span>.</p>
+        <p class="output" style="display:none;">Result received: White.</p>
+</div>

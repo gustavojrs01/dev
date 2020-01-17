@@ -34,6 +34,11 @@ export class Actividad1Component implements OnInit {
   unidad:string;
   leccion:string;
   curso:string;
+  tituloContenido:string;
+  leccionContenido:string;
+  linea1Contenido:string;
+  linea2Contenido:string;
+  linea3Contenido:string;
   actividadCompletada = false;  
 
   constructor(private router:Router,
@@ -56,7 +61,9 @@ export class Actividad1Component implements OnInit {
                 // this.datos = this.leccionesService.getConfig("l8u1l3y4");
                 // this.leccionesService.codigoLeccion=this.codigoLeccion;               Este funciona
                 this.leccionesService.codigoLeccion=localStorage.getItem("codigoLeccion");
+                
                 console.log(localStorage.getItem("codigoLeccion"));
+                console.log("Completada?"+this.actividadCompletada);
               }
 
   ngOnInit() {
@@ -162,6 +169,10 @@ export class Actividad1Component implements OnInit {
       // alert("No hay mas palabras a mostrar");
       // this.router.navigate(['actividad2']);
       this.siguiente.style.display = "none";
+      document.getElementById('ecogeVoz').style.visibility="hidden";
+      document.getElementById('botonPlay').style.display="none";
+      document.getElementById('botonEscucha').style.display="none";
+      document.getElementById('botonEscuchadiv').style.display="none";
       this.diagnosticPara.textContent = "Good Job! Go to the next activity";
       localStorage.setItem("actividad1completada", "true");
       this.actividadCompletada = this.validarLeccionCompletada(localStorage.getItem("actividad1completada"));
@@ -285,8 +296,8 @@ export class Actividad1Component implements OnInit {
             }
             
             
+            
           }
-          
           this.detectChanges();
 
       });
@@ -403,14 +414,23 @@ export class Actividad1Component implements OnInit {
   goToBackActivity(){
     this.router.navigate(["/home"]);
   }
-
+  
   goToNextActivity(){
     this.router.navigate(["/actividad2"]);
-     
+    
   }
-
+  
+  validarLeccionCompletada(variable:string){
+    if (variable == "true"){
+      return true;
+    } else{
+      return false;
+    }
+  }
+  
+}
   // showConfig() {
-  //   this.leccionesService.getConfig(this.codigoLeccion)
+    //   this.leccionesService.getConfig(this.codigoLeccion)
   //     .subscribe((data) => this.lecciones1 = {
   //         curso: data['curso'],
   //         unidad: data['unidad'],
@@ -511,14 +531,6 @@ export class Actividad1Component implements OnInit {
       
   // }  
 
-  validarLeccionCompletada(variable:string){
-    if (variable == "true"){
-      return true;
-    } else{
-      return false;
-    }
-  }
 
 
 
-}

@@ -1,0 +1,55 @@
+{
+    "curso":"Level 8",
+    "unidad":"U2",
+    "leccion":"L 3-4",
+    "act1":[
+        "Young",
+        "Slim",
+        "Short",
+        "Cheerful",
+        "Medium height",
+        "Grumpy",
+        "Sweet",
+        "Lovely",
+        "Chubby",
+        "Curly",
+        "Slim",
+        "Kind",
+        "Young",
+        "Lovely"
+    ],
+    "act2":[
+        "She is short and slim",
+        "My friend is easygoing and kind",
+        "My mom has long, black hair and black eyes",
+        "My grandfather is bald",
+        "My friend is younger than her sister",
+        "My dog is more lovely than your cat",
+        "I'm shorter than my brother"
+    ],
+    "act3":[
+        "Are you younger than your sister? ",
+        "No, I'm not. I'm older than her",
+        "How is she?",
+        "She is short and slim",
+        "Is she nice or grumpy?",
+        "She is very nice and kind"
+    ],
+    "act4":"I'm thirteen years old. I have straight hair. I'm medium height. I'm easy going and funny. I have a brother. He is older than me, but he is shorter than me. He has a moustache and is very grumpy. My mom is very sweet and cheerful.",
+    "act5":[
+        "Cheerful",
+        "Medium height",
+        "Grumpy",
+        "Sweet",
+        "Young",
+        "Chubby",
+        "She is short and slim",
+        "My friend is easygoing and kind",
+        "My grandfather is bald",
+        "My dog is more lovely than your cat",
+        "Are you younger than your sister?",
+        "Slim",
+        "I'm more easygoing than her",
+        "Is she taller than you?"
+    ]
+}

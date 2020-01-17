@@ -21,6 +21,8 @@ import { Actividad3Component } from './components/actividad3/actividad3.componen
 import { Actividad4Component } from './components/actividad4/actividad4.component';
 import { Actividad5Component } from './components/actividad5/actividad5.component';
 import { Unidad1Component } from './components/unidad1/unidad1.component';
+import { TestComponent } from './components/test/test.component';
+import { ContenidoComponent } from './components/contenido/contenido.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { Unidad1Component } from './components/unidad1/unidad1.component';
     Actividad3Component,
     Actividad4Component,
     Actividad5Component,
-    Unidad1Component
+    Unidad1Component,
+    TestComponent,
+    ContenidoComponent
   ],
   imports: [
     BrowserModule,

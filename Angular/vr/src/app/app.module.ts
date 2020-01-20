@@ -23,6 +23,7 @@ import { Actividad5Component } from './components/actividad5/actividad5.componen
 import { Unidad1Component } from './components/unidad1/unidad1.component';
 import { TestComponent } from './components/test/test.component';
 import { ContenidoComponent } from './components/contenido/contenido.component';
+import { BotoneraComponent } from './components/botonera/botonera.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ContenidoComponent } from './components/contenido/contenido.component';
     Actividad5Component,
     Unidad1Component,
     TestComponent,
-    ContenidoComponent
+    ContenidoComponent,
+    BotoneraComponent
   ],
   imports: [
     BrowserModule,

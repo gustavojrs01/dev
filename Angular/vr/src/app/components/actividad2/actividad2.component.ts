@@ -359,7 +359,7 @@ export class Actividad2Component implements OnInit {
     this.play.disabled = true;
     this.botonPlay.style.display="none";
     if (this.voz == "0"){
-        this.speechSynthesizer.speak(this.datos.act1[this.indiceFrase],"en-US");
+        this.speechSynthesizer.speak(this.datos.act2[this.indiceFrase],"en-US");
         this.speechSynthesizer.message.onend =()=>{
           this.audioEnd();
         };

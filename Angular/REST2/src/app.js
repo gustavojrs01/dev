@@ -1,0 +1,51 @@
+//* Para que funcionen las rutas tanto en windows como en linux
+// const path = require('path');
+//* Se crea el servidor
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const app = express();
+const leccionesRoutes = require('./routes/lecciones');
+
+//? CONEXION A BD
+mongoose.connect('mongodb://admin:ela36936@plataforma.zn.ela.cl:27017/apiVr?authSource=admin', { useNewUrlParser: true, useUnifiedTopology: true})
+    .then(db => console.log('DB Connected'))
+    .catch(err => console.log(err));
+
+
+/********************
+ * IMPORTING ROUTES *
+ ********************/
+// const indexRoutes = require('./routes/index');
+/************
+ * SETTINGS *
+ ************/
+var port = 4000;
+app.set('port', process.env.PORT || port);
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
+
+/***************
+ * MIDDLEWARES *
+ ***************/
+
+app.use(bodyParser.json());
+
+// Muestra el log en la consola del server
+app.use(morgan('dev'));
+
+app.use(express.urlencoded({extended: false}));
+
+
+/**********
+ * ROUTES *
+ **********/
+app.use('/lecciones', leccionesRoutes);
+
+/*************************
+ * INICIANDO EL SERVIDOR *
+ *************************/
+app.listen(app.get('port'), ()=>{
+    console.log(`Server on port ${app.get('port')}`);
+});

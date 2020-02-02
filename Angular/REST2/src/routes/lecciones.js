@@ -19,4 +19,6 @@ router.get('/codigo/:codigoLeccion', getLeccionCodigo);
 router.put('/:leccionId', replaceLeccion);
 router.delete('/:leccionId', deleteLeccion);
 
+
+
 module.exports = router;

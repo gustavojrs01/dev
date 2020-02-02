@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const app = express();
 const leccionesRoutes = require('./routes/lecciones');
+const usuariosRoutes = require('./routes/usuarios');
 
 //? CONEXION A BD
 mongoose.connect('mongodb://admin:ela36936@plataforma.zn.ela.cl:27017/apiVr?authSource=admin', { useNewUrlParser: true, useUnifiedTopology: true})
@@ -42,6 +43,7 @@ app.use(express.urlencoded({extended: false}));
  * ROUTES *
  **********/
 app.use('/lecciones', leccionesRoutes);
+app.use('/usuarios', usuariosRoutes);
 
 /*************************
  * INICIANDO EL SERVIDOR *

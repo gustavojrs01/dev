@@ -1,5 +1,7 @@
 const mongoose = require('mongoose'),
-    Schema   = mongoose.Schema;
+    Schema = mongoose.Schema;
+
+
 
 const userSchema = new Schema({
     nombre:String,
@@ -20,8 +22,7 @@ const userSchema = new Schema({
     },
     cursos:[{
         type:Schema.Types.ObjectId,
-        ref:'Curso',
-        unique:true
+        ref:'Curso'
     }],
     seccion:String
 });

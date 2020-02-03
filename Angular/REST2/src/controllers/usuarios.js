@@ -40,9 +40,13 @@ module.exports = {
     getRolUsuario: async (req, res, next)=>{
         const {usuarioId} = req.params;
         const usuario = await Usuario.findById(usuarioId);
-        const rol = usuario.rol;
-        const rolUsuario = await Rol.findOne({_id:rol});
-        res.status(200).json(rolUsuario.rol);
+        if(usuario){
+            const rol = usuario.rol;
+            const rolUsuario = await Rol.findOne({_id:rol});
+            res.status(200).json(rolUsuario.rol);
+        }else{
+            res.status(400).json({"mensaje":"El usuario ingresado no existe"});
+        }
     },
     newRolUsuario: async (req, res, next)=>{
         const {usuarioId} = req.params;
@@ -71,6 +75,7 @@ module.exports = {
         }else{
             usuario.cursos.push(cursoId);
             await usuario.save({upsert:true});
+            
         }
         res.status(201).json(newCurso);
     },

@@ -5,8 +5,16 @@ const colegiosSchema = new Schema({
     colegio:String,
     cursos: [{
         type:Schema.Types.ObjectId,
-        ref:'cursos'
-    }]
+        ref:'Curso'
+    }],
+     usuarios: [{
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    }],
+     comuna: {
+        type:Schema.Types.ObjectId,
+        ref:'Comuna'
+    }
 });
 
 module.exports = mongoose.model('Colegio', colegiosSchema);

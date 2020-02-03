@@ -8,11 +8,14 @@ const mongoose = require('mongoose');
 const app = express();
 const leccionesRoutes = require('./routes/lecciones');
 const usuariosRoutes = require('./routes/usuarios');
+const cursosRoutes = require('./routes/cursos');
+const colegiosRoutes = require('./routes/colegios');
 
 //? CONEXION A BD
 mongoose.connect('mongodb://admin:ela36936@plataforma.zn.ela.cl:27017/apiVr?authSource=admin', { useNewUrlParser: true, useUnifiedTopology: true})
     .then(db => console.log('DB Connected'))
     .catch(err => console.log(err));
+mongoose.set('useCreateIndex', true);
 
 
 /********************
@@ -44,6 +47,8 @@ app.use(express.urlencoded({extended: false}));
  **********/
 app.use('/lecciones', leccionesRoutes);
 app.use('/usuarios', usuariosRoutes);
+app.use('/cursos', cursosRoutes);
+app.use('/colegios', colegiosRoutes);
 
 /*************************
  * INICIANDO EL SERVIDOR *

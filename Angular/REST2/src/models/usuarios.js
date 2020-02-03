@@ -7,7 +7,8 @@ const userSchema = new Schema({
     password:String,
     rol: {
         type:Schema.Types.ObjectId,
-        ref:'Role'
+        ref:'Role',
+        default:'5e361d0e52ea411d05a1e597'
     },
     colegio: {
         type:Schema.Types.ObjectId,
@@ -17,10 +18,12 @@ const userSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:'Comuna'
     },
-    cursos:{
+    cursos:[{
         type:Schema.Types.ObjectId,
-        ref:'Curso'
-    }
+        ref:'Curso',
+        unique:true
+    }],
+    seccion:String
 });
 
 module.exports = mongoose.model('User', userSchema);

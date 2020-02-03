@@ -10,7 +10,12 @@ const {
     replaceUsuario,
     deleteUsuario,
     getRolUsuario,
-    newRolUsuario
+    newRolUsuario,
+    getCursosUsuario,
+    newCursoUsuario,
+    getColegioUsuario,
+    newColegioUsuario
+    
 } = require('../controllers/usuarios');
 
 router.get('/', index);
@@ -21,5 +26,11 @@ router.delete('/:usuarioId', deleteUsuario);
 
 router.get('/:usuarioId/rol', getRolUsuario);
 router.put('/:usuarioId/rol', newRolUsuario);
+
+router.get('/:usuarioId/curso', getCursosUsuario);
+router.put('/:usuarioId/curso', newCursoUsuario);
+
+router.get('/:usuarioId/colegio', getColegioUsuario);
+router.put('/:usuarioId/colegio', newColegioUsuario);
 
 module.exports = router;

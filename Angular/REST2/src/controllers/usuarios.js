@@ -68,13 +68,22 @@ module.exports = {
         const {usuarioId} = req.params;
         const usuario = await Usuario.findById(usuarioId);
         const newCurso = req.body;
-        const cursoId = await Curso.findOne({curso:newCurso.curso});
+        const curso = await Curso.findOne({curso:newCurso.curso});
         
-        if (usuario.cursos.includes(cursoId._id)){
+        if (!curso){
+            res.status(200).json("Mensaje: El curso "+newCurso.curso+" no existe");
+        }else if (usuario.cursos.includes(curso._id)){            
             console.log("Este usuario ya se encuentra registrado en este curso");
+            res.status(200).json("Mensaje: Este usuario ya se encuentra registrado en este curso");
         }else{
-            usuario.cursos.push(cursoId);
-            await usuario.save({upsert:true});
+            usuario.cursos.push(curso);
+            curso.usuarios.push(usuario);
+            await usuario.save();
+            await curso.save();
+
+            // db.clubs.update({},
+            //     {$pull: { members: { $in: [ ObjectId("57580c4b203636137dbff0c9")] }}},
+            //     { multi: true });
             
         }
         res.status(201).json(newCurso);
@@ -89,11 +98,11 @@ module.exports = {
         const {usuarioId} = req.params;
         const usuario = await Usuario.findById(usuarioId);
         const newColegio = req.body;
-        const colegioId = await Colegio.findOne({colegio:newColegio.colegio});
-        if (colegioId) {
-            usuario.colegio = colegioId._id;
+        const colegio = await Colegio.findOne({colegio:newColegio.colegio});
+        if (colegio) {
+            usuario.colegio = colegio._id;
             await usuario.save();          
-            res.status(201).json(colegioId._id);
+            res.status(201).json(colegio._id);
         }else{
             console.log("Error: El colegio no existe");
             res.status(400).json("Error: El colegio no existe");

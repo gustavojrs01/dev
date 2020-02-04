@@ -81,6 +81,7 @@ module.exports = {
             await usuario.save();
             await curso.save();
 
+            // Here is the query to remove the user ids from "clubs" collection (i.e. members array).
             // db.clubs.update({},
             //     {$pull: { members: { $in: [ ObjectId("57580c4b203636137dbff0c9")] }}},
             //     { multi: true });

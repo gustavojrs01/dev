@@ -80,6 +80,11 @@ module.exports = {
             curso.usuarios.push(usuario);
             await usuario.save();
             await curso.save();
+            // await usuario.update({},
+            //     {$push: { usuario: { $in: [ curso ] }}},
+            //     { multi: true }
+            //     )
+            // );
 
             // Here is the query to remove the user ids from "clubs" collection (i.e. members array).
             // db.clubs.update({},

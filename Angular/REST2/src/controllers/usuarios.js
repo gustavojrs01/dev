@@ -94,6 +94,64 @@ module.exports = {
         }
         res.status(201).json(newCurso);
     },
+
+    // Model.findById({ 
+    //     id
+    // }, (err, doc) => {
+    //    if(err){
+    //        console.log(`Error: ` + err)
+    //    } else{
+    //      if(!doc){
+    //          console.log("message")
+    //      } else{
+           
+    //      }
+    //    }
+    // });
+
+    newCursoUsuario2: async (req, res, next)=>{
+        const {usuarioId} = req.params;
+        const newCurso = req.body;
+        const usuario = await Usuario.findById(usuarioId, (err, doc) => {
+            if(err){
+                console.log(`Error: ` + err);
+                res.status(500).json(err);
+            } else{
+              if(!doc){
+                  console.log("message")
+              } else{
+                res.status(200).json(doc);
+              }
+            }
+         });
+        
+    },
+
+
+
+        
+        //    if(err){
+        //        console.log(`Error: ` + err)
+        //     }
+        //   }
+        // );
+        //    } else{
+        //      if(!doc){
+        //          res.status(200).json(usuarioId);
+        //          console.log("El usuario no existe");
+        //      } else{
+        //        const curso = Curso.findOne({
+        //            curso: newCurso.curso,
+        //        }).then((doc) => {
+        //            if (!doc) {
+        //                 // res.status(200).json(newCurso);
+        //                 // console.log("El curso ingresado no existe");
+        //            } else{
+        //             //    usuario.cursos.push(curso);
+        //             //    curso.usuarios.push(usuario);
+        //             //    res.status(200).json("El usuario se ha inscrito en el curso "+curso+" correctamente");
+        //            }
+        //        }); 
     getColegioUsuario: async (req, res, next)=>{
         const {usuarioId} = req.params;
         const usuario = await Usuario.findById(usuarioId).populate('colegio');

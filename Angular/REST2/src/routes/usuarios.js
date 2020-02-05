@@ -14,7 +14,8 @@ const {
     getCursosUsuario,
     newCursoUsuario,
     getColegioUsuario,
-    newColegioUsuario
+    newColegioUsuario,
+    newCursoUsuario2
     
 } = require('../controllers/usuarios');
 
@@ -29,6 +30,7 @@ router.put('/:usuarioId/rol', newRolUsuario);
 
 router.get('/:usuarioId/curso', getCursosUsuario);
 router.put('/:usuarioId/curso', newCursoUsuario);
+router.get('/:usuarioId/curso2', newCursoUsuario2);
 
 router.get('/:usuarioId/colegio', getColegioUsuario);
 router.put('/:usuarioId/colegio', newColegioUsuario);

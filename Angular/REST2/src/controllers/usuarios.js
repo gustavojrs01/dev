@@ -120,10 +120,10 @@ module.exports = {
               if(!doc){
                   console.log("message")
               } else{
-                res.status(200).json(doc);
+                res.status(200).json(doc.cursos);
               }
             }
-         });
+         }).populate('cursos').populate('usuarios');
         
     },
 

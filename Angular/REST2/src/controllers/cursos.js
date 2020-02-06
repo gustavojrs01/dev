@@ -4,7 +4,7 @@ const Curso = require('../models/cursos');
 module.exports = {
 
     index: async (req, res, next) =>{
-        const cursos = await Curso.find({});   
+        const cursos = await Curso.find({}).populate('usuarios').populate('usuarios.cursos');   
         res.status(200).json(cursos);
     },
     setCurso: async (req, res, next)=>{

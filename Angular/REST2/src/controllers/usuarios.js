@@ -11,8 +11,13 @@ module.exports = {
     },
     setUsuario: async (req, res, next)=>{
         const setUsuario = new Usuario(req.body);
-        const usuario = await setUsuario.save();
-        res.status(200).json(usuario);
+        const existe = await Usuario.findOne({usuario:setUsuario.usuario});  
+        if (existe){
+            res.status(400).json("El usuario ingresado ya existe");
+        }else{
+            const usuario = await setUsuario.save();
+            res.status(200).json(usuario);
+        }
     },
     getUsuario: async (req, res, next)=>{
         const { usuarioId } = req.params;
@@ -32,10 +37,20 @@ module.exports = {
         res.status(200).json({success: true}); 
     },
     deleteUsuario: async (req, res, next)=>{
-        const { usuarioId } = req.params;
-        const nuevoUsuario = req.body;
-        await Usuario.findByIdAndRemove(usuarioId);
-        res.status(200).json({success: true}); 
+        const { usuarioId } = req.params;        
+        await Usuario.findByIdAndRemove(usuarioId, {useFindAndModify:false}, async (err, doc)=>{
+            if (err){
+                res.status(400).json("Ha ocurrido un error, ID invalido");
+            } else if (doc){
+                await Curso.updateMany({usuarios:usuarioId},
+                    {$pull: { usuarios: usuarioId}});
+                res.status(200).json({success: true, message:"El usuario ha sido eliminado"});
+                console.log(doc);
+            } else {
+                res.status(400).json("El usuario ingresado no existe");
+            }
+        });
+        
     },
     getRolUsuario: async (req, res, next)=>{
         const {usuarioId} = req.params;

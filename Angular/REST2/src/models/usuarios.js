@@ -4,9 +4,19 @@ const mongoose = require('mongoose'),
 
 
 const usuarioSchema = new Schema({
-    nombre:String,
-    usuario:String,
-    password:String,
+    nombre:{
+        type:String,        
+        required:true
+    },
+    usuario:{
+        type:String,
+        unique:true,
+        required:true
+    },
+    password:{
+        type:String,        
+        required:true
+    },
     rol: {
         type:Schema.Types.ObjectId,
         ref:'Role',

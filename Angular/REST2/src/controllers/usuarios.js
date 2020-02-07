@@ -68,8 +68,7 @@ module.exports = {
         const usuario = await Usuario.findById(usuarioId);
         const newRol = req.body;
         const rolId = await Rol.findOne({rol:newRol.rol});  
-        usuario.rol = rolId._id;
-        // console.log("dato " + id); 
+        usuario.rol = rolId._id; 
         await usuario.save();
         res.status(201).json(rolId);
     },
@@ -95,34 +94,13 @@ module.exports = {
             curso.usuarios.push(usuario);
             await usuario.save();
             await curso.save();
-            // await usuario.update({},
-            //     {$push: { usuario: { $in: [ curso ] }}},
-            //     { multi: true }
-            //     )
-            // );
-
             // Here is the query to remove the user ids from "clubs" collection (i.e. members array).
             // db.clubs.update({},
             //     {$pull: { members: { $in: [ ObjectId("57580c4b203636137dbff0c9")] }}},
-            //     { multi: true });
-            
+            //     { multi: true });            
         }
         res.status(201).json(newCurso);
     },
-
-    // Model.findById({ 
-    //     id
-    // }, (err, doc) => {
-    //    if(err){
-    //        console.log(`Error: ` + err)
-    //    } else{
-    //      if(!doc){
-    //          console.log("message")
-    //      } else{
-           
-    //      }
-    //    }
-    // });
 
     newCursoUsuario2: async (req, res, next)=>{
         const {usuarioId} = req.params;
@@ -140,33 +118,8 @@ module.exports = {
             }
          }).populate('cursos').populate('usuarios');
         
-    },
+    },        
 
-
-
-        
-        //    if(err){
-        //        console.log(`Error: ` + err)
-        //     }
-        //   }
-        // );
-        //    } else{
-        //      if(!doc){
-        //          res.status(200).json(usuarioId);
-        //          console.log("El usuario no existe");
-        //      } else{
-        //        const curso = Curso.findOne({
-        //            curso: newCurso.curso,
-        //        }).then((doc) => {
-        //            if (!doc) {
-        //                 // res.status(200).json(newCurso);
-        //                 // console.log("El curso ingresado no existe");
-        //            } else{
-        //             //    usuario.cursos.push(curso);
-        //             //    curso.usuarios.push(usuario);
-        //             //    res.status(200).json("El usuario se ha inscrito en el curso "+curso+" correctamente");
-        //            }
-        //        }); 
     getColegioUsuario: async (req, res, next)=>{
         const {usuarioId} = req.params;
         const usuario = await Usuario.findById(usuarioId).populate('colegio');
@@ -181,7 +134,7 @@ module.exports = {
         if (colegio) {
             usuario.colegio = colegio._id;
             await usuario.save();          
-            res.status(201).json(colegio._id);
+            res.status(201).json(colegio);
         }else{
             console.log("Error: El colegio no existe");
             res.status(400).json("Error: El colegio no existe");

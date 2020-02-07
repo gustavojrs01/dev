@@ -7,15 +7,15 @@ const {
     index,
     setColegio,
     getColegio,
-    replaceColegio,
+    updateColegio,
     deleteColegio
 } = require('../controllers/colegios');
 
 router.get('/', index);
 router.post('/', setColegio);
-router.get('/:cursoId', getColegio);
-router.put('/:cursoId', replaceColegio);
-router.delete('/:cursoId', deleteColegio);
+router.get('/:colegioId', getColegio);
+router.put('/:colegioId', updateColegio);
+router.delete('/:colegioId', deleteColegio);
 
 
 

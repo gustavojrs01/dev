@@ -5,7 +5,7 @@ const comunasSchema = new Schema({
     comuna:String,
     colegios: [{
         type:Schema.Types.ObjectId,
-        ref:'colegios'
+        ref:'Colegio'
     }]
 });
 

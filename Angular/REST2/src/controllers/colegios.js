@@ -11,8 +11,13 @@ module.exports = {
     },
     setColegio: async (req, res, next)=>{
         const setColegio = new Colegio(req.body);
-        const colegio = await setColegio.save();
-        res.status(200).json(colegio);
+        const existe = await Colegio.findOne({codigo:setColegio.codigo});
+        if (existe){
+            res.status(400).json("El colegio ingresado ya existe");
+        }else {
+            const colegio = await setColegio.save();
+            res.status(200).json(colegio);
+        }
     },
     getColegio: async (req, res, next)=>{
         const { colegioId } = req.params;
@@ -32,10 +37,19 @@ module.exports = {
         res.status(200).json({success: true}); 
     },
     deleteColegio: async (req, res, next)=>{
-        const { colegioId } = req.params;
-        const nuevoColegio = req.body;
-        await Colegio.findByIdAndRemove(colegioId);
-        res.status(200).json({success: true}); 
+        const { colegioId } = req.params;        
+        const colegio = await Colegio.findByIdAndRemove(colegioId, async (err, doc)=>{
+            if (err){
+                res.status(400).json("Ha ocurrido un error, ID invalido");
+            }else if (doc) {
+                res.status(200).json({message: `Colegio ${doc.colegio} eliminado`});
+                await Usuario.updateMany({colegio:colegioId},
+                    {$pull: { colegio: colegioId}});
+                
+            }else {
+                res.status(400).json("El colegio ingresado no existe");
+            }
+        });
     }
 
 };

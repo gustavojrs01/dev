@@ -6,7 +6,7 @@ const Colegio = require('../models/colegios');
 module.exports = {
 
     index: async (req, res, next) =>{
-        const colegios = await Colegio.find({});   
+        const colegios = await Colegio.find({}).populate('usuarios');   
         res.status(200).json(colegios);
     },
     setColegio: async (req, res, next)=>{
@@ -44,7 +44,7 @@ module.exports = {
             }else if (doc) {
                 res.status(200).json({message: `Colegio ${doc.colegio} eliminado`});
                 await Usuario.updateMany({colegio:colegioId},
-                    {$pull: { colegio: colegioId}});
+                    {$set: {colegio: ""}});
                 
             }else {
                 res.status(400).json("El colegio ingresado no existe");

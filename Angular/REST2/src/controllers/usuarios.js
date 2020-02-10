@@ -13,7 +13,7 @@ module.exports = {
         const setUsuario = new Usuario(req.body);
         const existe = await Usuario.findOne({usuario:setUsuario.usuario});  
         if (existe){
-            res.status(400).json("El usuario ingresado ya existe");
+            res.status(400).json({message:"El usuario ingresado ya existe"});
         }else{
             const usuario = await setUsuario.save();
             res.status(200).json(usuario);
@@ -39,16 +39,20 @@ module.exports = {
     deleteUsuario: async (req, res, next)=>{
         const { usuarioId } = req.params;        
         await Usuario.findByIdAndRemove(usuarioId, {useFindAndModify:false}, async (err, doc)=>{
-            if (err){
-                res.status(400).json("Ha ocurrido un error, ID invalido");
-            } else if (doc){
-                await Curso.updateMany({usuarios:usuarioId},
-                    {$pull: { usuarios: usuarioId}});
-                res.status(200).json({success: true, message:"El usuario ha sido eliminado"});
-                console.log(doc);
-            } else {
-                res.status(400).json("El usuario ingresado no existe");
-            }
+            // if (err){
+            //     res.status(400).json({message:"Ha ocurrido un error, ID invalido"});
+            // } else if (doc){
+            //     await Curso.updateMany({usuarios:usuarioId},
+            //         {$pull: { usuarios: usuarioId}});
+            //     await Colegio.updateMany({usuarios:usuarioId},
+            //         {$pull: {usuarios:usuarioId}});
+            //     res.status(200).json({success: true, message:"El usuario ha sido eliminado"});
+            //     console.log(doc);
+            // } else {
+            //     res.status(400).json({message:"El usuario ingresado no existe"});
+            // }
+                Colegio.updateMany({usuarios:{$all:["5e4162b79b0cb413e80b588c"]}},
+                {$pull: {usuarios: {$in:["5e4162b79b0cb413e80b588c"]}}});
         });
         
     },
@@ -60,7 +64,7 @@ module.exports = {
             const rolUsuario = await Rol.findOne({_id:rol});
             res.status(200).json(rolUsuario.rol);
         }else{
-            res.status(400).json({"mensaje":"El usuario ingresado no existe"});
+            res.status(400).json({message:"El usuario ingresado no existe"});
         }
     },
     newRolUsuario: async (req, res, next)=>{
@@ -85,10 +89,10 @@ module.exports = {
         const curso = await Curso.findOne({curso:newCurso.curso});
         
         if (!curso){
-            res.status(200).json("Mensaje: El curso "+newCurso.curso+" no existe");
+            res.status(200).json({message: "El curso "+newCurso.curso+" no existe"});
         }else if (usuario.cursos.includes(curso._id)){            
             console.log("Este usuario ya se encuentra registrado en este curso");
-            res.status(200).json("Mensaje: Este usuario ya se encuentra registrado en este curso");
+            res.status(200).json({message:"Este usuario ya se encuentra registrado en este curso"});
         }else{
             usuario.cursos.push(curso);
             curso.usuarios.push(usuario);
@@ -131,15 +135,26 @@ module.exports = {
         const usuario = await Usuario.findById(usuarioId);
         const newColegio = req.body;
         const colegio = await Colegio.findOne({colegio:newColegio.colegio});
-        if (colegio) {
-            usuario.colegio = colegio._id;
-            await usuario.save();          
-            res.status(201).json(colegio);
+        if (usuario){
+            if (colegio) {
+                if(usuario.colegio == colegio.id){
+                    res.status(400).json({message:"Error, El usuario ya pertence a este colegio"});
+                }else{
+                    usuario.colegio = colegio._id;
+                    await usuario.save();          
+                    await colegio.usuarios.push(usuario._id);
+                    await colegio.save();
+                    res.status(201).json(colegio);
+                }            
+            }else{
+                console.log({message:"Error, El colegio no existe"});
+                res.status(400).json({message:"Error, El colegio no existe"});
+                // res.send("Error, el colegio no existe");
+                
+            }
+            console.log(usuario.colegio + colegio.id);
         }else{
-            console.log("Error: El colegio no existe");
-            res.status(400).json("Error: El colegio no existe");
-            // res.send("Error, el colegio no existe");
-            
+            res.status(404).json({message:"Error, El usuario no existe"});            
         }
     }
 

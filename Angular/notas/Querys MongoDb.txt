@@ -1,0 +1,13 @@
+SELECCIONAR LOS DOCUMENTOS QUE CONTENGAN ObjectId("5e4162c69b0cb413e80b588d") DENTRO DEL ARREGLO "usuarios"
+db.colegios.find( {
+    usuarios:{$all:[ObjectId("5e4162c69b0cb413e80b588d")]}
+    } )
+
+
+
+ACTUALIZAR TODOS LOS ELEMENTOS DE UN ARREGLO "usuarios" EN UN DOCUMENTO QUE CONTIENE UN ARREGLO "usuarios" CON UN VALOR EN ESPECIFICO ObjectId("5e4162c69b0cb413e80b588d")
+
+db.colegios.updateMany({usuarios:{$all:[ObjectId("5e4162c69b0cb413e80b588d")]}}, {$set:{"usuarios.$[]":"aaa"}})
+
+
+

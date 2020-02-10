@@ -27,8 +27,7 @@ const usuarioSchema = new Schema({
         ref:'Colegio'
     },
     comuna:{
-        type:Schema.Types.ObjectId,
-        ref:'Comuna'
+        type:String        
     },
     cursos:[{
         type:Schema.Types.ObjectId,

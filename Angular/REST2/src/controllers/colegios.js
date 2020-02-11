@@ -43,12 +43,14 @@ module.exports = {
                 res.status(400).json("Ha ocurrido un error, ID invalido");
             }else if (doc) {
                 res.status(200).json({message: `Colegio ${doc.colegio} eliminado`});
-                await Usuario.updateMany({colegio:colegioId},
-                    {$set: {colegio: ""}});
-                
+                // await Usuario.updateMany({colegio:colegioId},
+                //     {$unset: {colegio: ""}});                    
+                await Usuario.update({colegio:colegioId},
+                    {$unset: {colegio: ""}});                    
             }else {
                 res.status(400).json("El colegio ingresado no existe");
-            }
+            }                
+            
         });
     }
 

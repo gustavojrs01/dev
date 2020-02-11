@@ -39,20 +39,18 @@ module.exports = {
     deleteUsuario: async (req, res, next)=>{
         const { usuarioId } = req.params;        
         await Usuario.findByIdAndRemove(usuarioId, {useFindAndModify:false}, async (err, doc)=>{
-            // if (err){
-            //     res.status(400).json({message:"Ha ocurrido un error, ID invalido"});
-            // } else if (doc){
-            //     await Curso.updateMany({usuarios:usuarioId},
-            //         {$pull: { usuarios: usuarioId}});
-            //     await Colegio.updateMany({usuarios:usuarioId},
-            //         {$pull: {usuarios:usuarioId}});
-            //     res.status(200).json({success: true, message:"El usuario ha sido eliminado"});
-            //     console.log(doc);
-            // } else {
-            //     res.status(400).json({message:"El usuario ingresado no existe"});
-            // }
-                Colegio.updateMany({usuarios:{$all:["5e4162b79b0cb413e80b588c"]}},
-                {$pull: {usuarios: {$in:["5e4162b79b0cb413e80b588c"]}}});
+            if (err){
+                res.status(400).json({message:"Ha ocurrido un error, ID invalido"});
+            } else if (doc){
+                await Curso.updateMany({usuarios:usuarioId},
+                    {$pull: { usuarios: usuarioId}});
+                await Colegio.updateMany({usuarios:usuarioId},
+                    {$pull: {usuarios:usuarioId}});
+                res.status(200).json({success: true, message:"El usuario ha sido eliminado"});
+                console.log(doc);
+            } else {
+                res.status(400).json({message:"El usuario ingresado no existe"});
+            }
         });
         
     },
@@ -140,11 +138,11 @@ module.exports = {
                 if(usuario.colegio == colegio.id){
                     res.status(400).json({message:"Error, El usuario ya pertence a este colegio"});
                 }else{
-                    usuario.colegio = colegio._id;
+                    usuario.colegio = colegio;
                     await usuario.save();          
-                    await colegio.usuarios.push(usuario._id);
+                    await colegio.usuarios.push(usuario);
                     await colegio.save();
-                    res.status(201).json(colegio);
+                    res.status(201).json({message:"Usuario registrado en el curso correctamente"});
                 }            
             }else{
                 console.log({message:"Error, El colegio no existe"});
@@ -152,7 +150,7 @@ module.exports = {
                 // res.send("Error, el colegio no existe");
                 
             }
-            console.log(usuario.colegio + colegio.id);
+            // console.log(usuario.colegio + colegio.id);
         }else{
             res.status(404).json({message:"Error, El usuario no existe"});            
         }

@@ -34,13 +34,13 @@ const usuarioSchema = new Schema({
         ref:'Curso'
     }],
     seccion:String,
-    avance:[{
-        act1:Boolean,
-        act2:Boolean,
-        act3:Boolean,
-        act4:Boolean,
-        act5:Boolean
-    }]
+    modulos_aprobados:{
+        act1:{type:Boolean, default:false},
+        act2:{type:Boolean, default:false},
+        act3:{type:Boolean, default:false},
+        act4:{type:Boolean, default:false},
+        act5:{type:Boolean, default:false}
+    }
 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

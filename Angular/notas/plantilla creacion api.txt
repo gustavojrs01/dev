@@ -1,0 +1,27 @@
+{
+    "nombre":"Gustavo Rodriguez",
+    "usuario":"gustavo",
+    "password":"123"
+},
+{
+    "nombre":"Angeles Lizana",
+    "usuario":"angeles",
+    "password":"456"
+},
+{
+    "nombre":"Elvira Alvarez",
+    "usuario":"elvira",
+    "password":"789"
+}
+
+{
+    "colegio":"RSM",
+    "codigo":"RSM"
+}
+{
+    "colegio":"Las Condes",
+    "codigo":"LC"
+}
+{
+    "curso":"Level 2"
+}

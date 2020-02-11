@@ -31,9 +31,18 @@ module.exports = {
     },
     deleteCurso: async (req, res, next)=>{
         const { cursoId } = req.params;
-        const nuevoCurso = req.body;
-        await Curso.findByIdAndRemove(cursoId);
-        res.status(200).json({success: true}); 
+        const curso = req.body;
+        await Curso.findByIdAndDelete(cursoId, async (err, doc)=>{
+            if (err){
+                res.status(400).json({message:"Error, ID invalida"});
+            } else if (doc){
+                await Usuario.updateMany({},
+                    {$pullAll:{cursos:[cursoId]}});
+                    res.status(200).json({message: "Curso eliminado correctamente"}); 
+            }else{
+                res.status(200).json({message: "Error, el curso no existe"});
+            }
+        });
     }
 
 };

@@ -33,7 +33,14 @@ const usuarioSchema = new Schema({
         type:Schema.Types.ObjectId,
         ref:'Curso'
     }],
-    seccion:String
+    seccion:String,
+    avance:[{
+        act1:Boolean,
+        act2:Boolean,
+        act3:Boolean,
+        act4:Boolean,
+        act5:Boolean
+    }]
 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

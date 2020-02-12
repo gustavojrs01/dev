@@ -60,7 +60,11 @@ const usuarioSchema = new Schema({
             r13:{type:Boolean, default:false},
             r14:{type:Boolean, default:false}
         }
-    }]
+    }],
+    cursarU1:{type:Boolean, default:true},
+    cursarU2:{type:Boolean, default:false},
+    cursarU3:{type:Boolean, default:false},
+    cursarU4:{type:Boolean, default:false},
 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

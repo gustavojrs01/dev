@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SpeechRecognizerService } from "./components/shared/services/speech-recognizer.service";
 import { SpeechSynthesizerService } from "./components/shared/services/speech-synthesizer.service";
 import { LeccionesService } from "./components/shared/services/lecciones.service";
+import { DatosService } from './components/shared/services/datos.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -52,7 +53,9 @@ import { BotoneraComponent } from './components/botonera/botonera.component';
   providers: [
     SpeechRecognizerService,
     SpeechSynthesizerService,
-    LeccionesService
+    LeccionesService,
+    DatosService
+
   ],
   bootstrap: [AppComponent]
 })

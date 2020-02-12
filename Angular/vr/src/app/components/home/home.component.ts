@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeccionesService } from "../shared/services/lecciones.service";
+import { DatosService, DatosUsuario, Rol } from "../shared/services/datos.service";
 import { Router } from "@angular/router";
 
 @Component({
@@ -19,7 +20,26 @@ export class HomeComponent implements OnInit {
   actividad4completada;
   actividad5completada;
 
+  public datos:DatosUsuario = {
+    nombre:"",
+    usuario:"",
+    password:"",
+    rol:{},
+    colegio:{},
+    comuna:"",
+    cursos:Object[""],
+    seccion:"",
+    modulos_aprobados:Object[""],
+    cursarU1:true,
+    cursarU2:false,
+    cursarU3:false,
+    cursarU4:false
+  };
+
+  public rol;
+
   constructor(private leccionesService:LeccionesService,
+              private datosService:DatosService,
               private router:Router) { 
                 localStorage.setItem("actividad1completada", "false");
                 localStorage.setItem("actividad2completada", "false");
@@ -29,7 +49,12 @@ export class HomeComponent implements OnInit {
               }
 
   ngOnInit() {
-    
+    this.datosService.getDatos("5e440e7d3e621a2ce0244513").subscribe(datos=>(this.datos = datos));
+    console.log(this.datos);
+    this.rol = this.datosService.getRol("5e440e7d3e621a2ce0244513");
+    // this.rol = "hola";
+    console.log(this.rol);
+    console.log("ngOnInit. FIN");
   }
 
   showL1(){

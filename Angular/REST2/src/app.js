@@ -45,10 +45,10 @@ app.use(express.urlencoded({extended: false}));
 /**********
  * ROUTES *
  **********/
-app.use('/lecciones', leccionesRoutes);
-app.use('/usuarios', usuariosRoutes);
-app.use('/cursos', cursosRoutes);
-app.use('/colegios', colegiosRoutes);
+app.use('/api/lecciones', leccionesRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/cursos', cursosRoutes);
+app.use('/api/colegios', colegiosRoutes);
 
 /*************************
  * INICIANDO EL SERVIDOR *

@@ -34,13 +34,33 @@ const usuarioSchema = new Schema({
         ref:'Curso'
     }],
     seccion:String,
-    modulos_aprobados:{
+    modulos_aprobados:[{
+        leccion:{
+            type:Schema.Types.ObjectId,
+            ref:'Lesson'
+        },
         act1:{type:Boolean, default:false},
         act2:{type:Boolean, default:false},
         act3:{type:Boolean, default:false},
         act4:{type:Boolean, default:false},
-        act5:{type:Boolean, default:false}
-    }
+        act5:{type:Boolean, default:false},
+        test:{
+            r1:{type:Boolean, default:false},
+            r2:{type:Boolean, default:false},
+            r3:{type:Boolean, default:false},
+            r4:{type:Boolean, default:false},
+            r5:{type:Boolean, default:false},
+            r6:{type:Boolean, default:false},
+            r7:{type:Boolean, default:false},
+            r8:{type:Boolean, default:false},
+            r9:{type:Boolean, default:false},
+            r10:{type:Boolean, default:false},
+            r11:{type:Boolean, default:false},
+            r12:{type:Boolean, default:false},
+            r13:{type:Boolean, default:false},
+            r14:{type:Boolean, default:false}
+        }
+    }]
 });
 
 module.exports = mongoose.model('Usuario', usuarioSchema);

@@ -30,41 +30,24 @@ export class DatosService{
         console.log("Servicio de datos Corriendo");
     }
 
-    public getData(url:string){
-        return this.http.get(url);
+    public getData(usuario:String){
+        let url = "http://localhost:4200/api/usuarios/username/";
+        return this.http.get(url+usuario);
     }
-
-
-    public getDatos(usuarioId:string):Observable<DatosUsuario>{
-        
-        return this.http.get<DatosUsuario>(this.url+usuarioId);
-    }
-    public getRol(rolId:string){
-        return this.http.get("http://localhost:4200/api/usuarios/"+rolId)
-        .subscribe(resp =>{
-            // return resp
-            // console.log(this.rol);
-        });
-    }
-
 }
 
 export interface DatosUsuario {
-    nombre:string,
-    usuario:string,
-    password:string,
-    rol?:{},
-    colegio?:{},
-    comuna?:string,
+    nombre:String,
+    usuario:String,
+    password:String,
+    rol?:Object,
+    colegio?:Object,
+    comuna?:String,
     cursos?:Object[],
-    seccion?:string,
+    seccion?:String,
     modulos_aprobados:Object[],
     cursarU1:boolean,
     cursarU2:boolean,
     cursarU3:boolean,
     cursarU4:boolean
-}
-
-export interface Rol {
-    rol:string
 }

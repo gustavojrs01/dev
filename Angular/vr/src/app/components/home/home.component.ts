@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LeccionesService } from "../shared/services/lecciones.service";
-import { DatosService, DatosUsuario, Rol } from "../shared/services/datos.service";
+import { DatosService, DatosUsuario } from "../shared/services/datos.service";
 import { Router } from "@angular/router";
 
 @Component({
@@ -50,14 +50,10 @@ export class HomeComponent implements OnInit {
               }
 
   ngOnInit() {
-    this.datosService.getDatos("5e440e7d3e621a2ce0244513").subscribe(datos=>(this.datos = datos));
-    console.log(this.datos);
-    this.rol = this.datosService.getRol("5e440e7d3e621a2ce0244513");
-    // this.rol = "hola";
-    console.log(this.rol);
-    console.log("ngOnInit. FIN");
-    this.datosService.getData("http://localhost:4200/api/usuarios/username/"+this.username).subscribe((res:any)=>{
-      console.log(res);
+
+    this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
+      this.datos = res;  
+      console.log("Estos son los datos " + this.datos.nombre);
     });
   }
 

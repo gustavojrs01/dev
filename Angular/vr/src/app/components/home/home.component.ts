@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   actividad3completada;
   actividad4completada;
   actividad5completada;
+  username="gus";
 
   public datos:DatosUsuario = {
     nombre:"",
@@ -55,6 +56,9 @@ export class HomeComponent implements OnInit {
     // this.rol = "hola";
     console.log(this.rol);
     console.log("ngOnInit. FIN");
+    this.datosService.getData("http://localhost:4200/api/usuarios/username/"+this.username).subscribe((res:any)=>{
+      console.log(res);
+    });
   }
 
   showL1(){

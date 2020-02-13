@@ -154,6 +154,22 @@ module.exports = {
         }else{
             res.status(404).json({message:"Error, El usuario no existe"});            
         }
+    },
+    getUsuarioByUsuario: async (req, res, next)=>{
+        // const {username} = req.params;
+        // const usuario = await Usuario.findOne({"usuario":username});
+        // console.log(usuario);
+        const {username} = req.params;
+        const usuario = await Usuario.findOne({usuario:username}, async (err, doc)=>{
+            if (err){
+                res.status(400).json({message:"Error: "+err});
+            } else if (doc){
+                console.log(doc);
+                res.status(200).json(doc);
+            } else {
+                res.status(404).json({message:"Usuario no existe"});
+            }
+        });
     }
 
 };

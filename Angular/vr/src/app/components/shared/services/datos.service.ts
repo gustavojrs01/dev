@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
-@Injectable()
+@Injectable({
+    providedIn:'root'
+})
 export class DatosService{
 
     private datos:DatosUsuario = {
@@ -27,6 +29,11 @@ export class DatosService{
     constructor(private http:HttpClient){
         console.log("Servicio de datos Corriendo");
     }
+
+    public getData(url:string){
+        return this.http.get(url);
+    }
+
 
     public getDatos(usuarioId:string):Observable<DatosUsuario>{
         

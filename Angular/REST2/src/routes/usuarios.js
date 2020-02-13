@@ -15,7 +15,8 @@ const {
     newCursoUsuario,
     getColegioUsuario,
     newColegioUsuario,
-    newCursoUsuario2
+    newCursoUsuario2,
+    getUsuarioByUsuario
     
 } = require('../controllers/usuarios');
 
@@ -34,5 +35,7 @@ router.get('/:usuarioId/curso2', newCursoUsuario2);
 
 router.get('/:usuarioId/colegio', getColegioUsuario);
 router.put('/:usuarioId/colegio', newColegioUsuario);
+
+router.get('/username/:username', getUsuarioByUsuario);
 
 module.exports = router;

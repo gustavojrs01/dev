@@ -1,3 +1,4 @@
+'use strict'
 //* Para que funcionen las rutas tanto en windows como en linux
 // const path = require('path');
 //* Se crea el servidor

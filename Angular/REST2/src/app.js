@@ -11,11 +11,19 @@ const leccionesRoutes = require('./routes/lecciones');
 const usuariosRoutes = require('./routes/usuarios');
 const cursosRoutes = require('./routes/cursos');
 const colegiosRoutes = require('./routes/colegios');
+const oauthRoutes = require('./routes/oauth.routes');
+
 
 //? CONEXION A BD
 mongoose.connect('mongodb://admin:ela36936@plataforma.zn.ela.cl:27017/apiVr?authSource=admin', { useNewUrlParser: true, useUnifiedTopology: true})
     .then(db => console.log('DB Connected'))
-    .catch(err => console.log(err));
+    .catch(err => console.log(err))
+    process.on('SIGINT', ()=>{
+        mongoose.connection.close(()=>{
+            console.log('MongoDb is disconnected');
+            process.exit(0);
+        });
+    });
 mongoose.set('useCreateIndex', true);
 
 
@@ -50,6 +58,7 @@ app.use('/api/lecciones', leccionesRoutes);
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/cursos', cursosRoutes);
 app.use('/api/colegios', colegiosRoutes);
+app.use('/api/login', oauthRoutes);
 
 /*************************
  * INICIANDO EL SERVIDOR *

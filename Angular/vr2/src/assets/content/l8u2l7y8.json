@@ -1,0 +1,56 @@
+{
+    "curso":"Level 8",
+    "unidad":"U2",
+    "leccion":"L 7-8",
+    "codigo":"l8u2l7y8",
+    "act1":[
+        "Make a mess",
+        "Make friends",
+        "Make noise",
+        "Make plans",
+        "Make a call",
+        "Make a mistake",
+        "Make the bed",
+        "Make an effort",
+        "Do the housework",
+        "Do the homework",
+        "Do your best",
+        "Do a favor",
+        "Do the dishes",
+        "Do my hair"
+    ],
+    "act2":[
+        "I make a mess every time I cook",
+        "Can you do me a favor?",
+        "I love making new friends",
+        "I do my homework every afternoon",
+        "I have to make a call",
+        "I always help my mom with the housework",
+        "I'm making plans to go to England"
+    ],
+    "act3":[
+        "Did you go to Italy last year?",
+        "Yes, I did. It was the most wonderful experience.",
+        "Did you stay in a hotel?",
+        "Yes! I didn't have to make my bed. It was great.",
+        "Did you speak Italian there?",
+        "No, I can't. But, I spoke English"
+    ],
+    "act4":"Travelling is the most amazing thing. You can meet people from different places, like Germany, U.S.A., Rapa Nui, Peru and Australia. You can see wonderful things. For me, going to different cities is more interesting than going to a beach.",
+    "act5":[
+        "Make plans",
+        "Make a call",
+        "Make a mistake",
+        "Do the housework",
+        "Do the homework",
+        "Do your best",
+        "I make a mess every time i cook",
+        "Can you do me a favor?",
+        "I love making new friends",
+        "I do my homework every afternoon",
+        "It was the most wonderful experience",
+        "I didn't have to make my bed",
+        "I spoke english",
+        "I met a peruvian, an american, an english girl and an italian"
+    ]
+}

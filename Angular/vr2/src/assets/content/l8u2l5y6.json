@@ -1,0 +1,56 @@
+{
+    "curso":"Level 8",
+    "unidad":"U2",
+    "leccion":"L 5-6",
+    "codigo":"l8u2l5y6",
+    "act1":[
+        "Fastest",
+        "Biggest",
+        "Cheapest",
+        "Most expensive",
+        "Smartest",
+        "Most beautiful",
+        "Best",
+        "Most interesting",
+        "Farthest",
+        "Most wonderful",
+        "Easter island",
+        "Fastest",
+        "Rapa nui",
+        "Tapati festival"
+    ],
+    "act2":[
+        "Easter Island is the most beautiful island",
+        "It sounds like you had the greatest time",
+        "Easter Island is the most interesting place",
+        "My cousin makes the best empanadas",
+        "Traveling by plane is the fastest way",
+        "This is the cheapest dress I found",
+        "My parents are the smartest people I know"
+    ],
+    "act3":[
+        "Did you go to Easter Island last summer?",
+        "Yes, I did. It's the most beautiful place I've seen",
+        "Is it cheap or expensive?",
+        "It's a little expensive, but wonderful",
+        "I heard that food is the most expensive thing",
+        "Yes, it is"
+    ],
+    "act4":"Easter Island is one of the most beautiful and amazing places on Earth. The Moai are the greatest thing I've seen and Anakena is the most amazing beach. It's a beautiful place that everyone should visit at least once.",
+    "act5":[
+        "Fastest",
+        "Biggest",
+        "Cheapest",
+        "Farthest",
+        "Easter island",
+        "Rapa nui",
+        "Easter island is the most beautiful island",
+        "Most expensive",
+        "Easter island is the most interesting place",
+        "Traveling by plane is the fastest way",
+        "I heard that food is the most expensive thing",
+        "They're the most amazing statues",
+        "We went to the tapati festival",
+        "It sounds like you had the greatest time"
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "curso":"Level 8",
+    "unidad":"U1",
+    "leccion":"L 1-2",
+    "codigo":"l8u1l1y2",
+    "act1":[
+        "Why",
+        "When",
+        "What",
+        "Where",
+        "Applications",
+        "How",
+        "Which",
+        "Because",
+        "Love",
+        "Hate",
+        "don't mind",
+        "Smartphones",
+        "Applications",
+        "Social Network"
+    ],
+    "act2":[
+        "Who has smartphones in your house?",
+        "I don't mind about social networks",
+        "How can you use technology?",
+        "Internet can be a learning tool",
+        "Don't spend too much time on social sites",
+        "I love downloading music",
+        "I hate chatting online"
+    ],
+    "act3":[
+        "Do you have a smartphone?",
+        "Yes, I do!",
+        "How much time do you spend on your phone?",
+        "A lot! I use my phone all day. Why?",
+        "Because, that's not good for you",
+        "But, I use it mostly to listen to my music"
+    ],
+    "act4":"Technology is very important nowadays. Almost everybody has a smartphone and internet access. People chat online, download content and use it as a learning tool, as well.",
+    "act5":[
+        "Why",
+        "Because",
+        "Don't mind",
+        "Smartphones",
+        "Applications",
+        "Social network",
+        "Who has smartphones in your house?",
+        "I don't mind about social networks",
+        "Internet can be a learning tool",
+        "I hate chatting online",
+        "Do you have a smartphone?",
+        "How much time do you spend on your phone?",
+        "I use my phone all day",
+        "I like playing with my phone"
+    ]
+}

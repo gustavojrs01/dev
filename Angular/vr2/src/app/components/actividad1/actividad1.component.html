@@ -1,0 +1,94 @@
+<div class="contenedor">
+    <div class="cabecera">
+      <div class="nombre">
+      <div class="DNNombre">{{curso}}<p id="Pnombre"></p></div>
+        <div class="DNActividad">{{unidad}}<p id="Pactividad"></p></div>
+        <div class="DNUnidad">{{leccion}}<p id="Punidad"></p></div>
+      </div>
+      <div id="divInfo" class="info"></div>
+    </div>
+    <div class="titulo">
+      <div><p>Can you read these words?</p></div>
+    </div>
+    <div class="izquierda"></div>
+    <div class="centro">
+      <div class="contenidoCentro">
+        <div class="fraseCentro">
+          <b
+        ><i><p id="pFrase" style="display: none;" class="phrase"></p></i
+          ></b>
+          <div class="controls" id="botonPlay">
+            <button id="play" type="submit" (click)="escucha()"></button>
+          </div>
+        </div>
+        <div id="fraseLeida" class="escuchaCentro">
+          <div id="btnStart" (click)="start()"></div>
+          <b
+            ><i><p class="output" id="output"></p></i
+          ></b>
+        </div>
+        <div class="resultadoCentro">
+          <b
+            ><i
+              ><p
+                class="resultado"
+                style="text-decoration: line-through;"
+              ></p></i
+          ></b>
+        </div>
+        <div class="botonesCentro">
+          <div class="contenedorBotones">
+            <div class="botonEscucha" id="botonEscuchadiv">
+              <button id="botonEscucha" (click)="startButton($event)"></button>
+            </div>
+            <div id="siguiente" class="siguiente">
+              <button (click)="siguienteFrase()"></button>
+            </div>
+            <div id="espectro" class="espectro"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="derecha">
+      <div class="ecogeVoz" id="ecogeVoz">
+        <div class="vozHombre">
+          <button id="vozHombre" type="submit" (click)="cambiaVozH()"></button>
+        </div>
+        <div class="vozMujer">
+          <button id="vozMujer" type="submit" (click)="cambiaVozM()"></button>
+        </div>
+        <div class="vozMaquina">
+          <button id="vozMaquina" type="submit" (click)="cambiaVozMaq()"></button>
+        </div>
+      </div>
+    </div>
+    <div class="pieIzq"></div>
+    <div class="pieCentro">
+      <div class="backNext">
+        <div class="back" (click)="goToBackActivity()">
+          <!-- <button id="back" class="" (click)="goToHome()"></button> -->
+        </div>
+        <div class="next" id="lnkNext" (click)="goToNextActivity()" *ngIf="actividadCompletada">
+          <!-- <button id="next" class="next" ></button> -->
+        </div>          
+      </div>
+    </div>
+    <div class="pieDer"></div>
+    <app-botonera></app-botonera>
+  </div>
+  <div id="lista" style="visibility:hidden;">
+    <select> </select>
+  </div>
+  <div id="contenedorInfo" class="ocultaInfo"></div>
+  <div id="ok"></div>
+  <div id="tryAgain"></div>
+  <div id="resultadoDiff">    
+  </div>
+  <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" (click)="siguienteFrase()">Siguiente frase</button>
+  <button type="button" name="" id="" class="btn btn-primary btn-lg btn-block" (click)="repro()">Play</button>
+  <!-- <div id="display"></div> -->
+  <!-- <div id="prueba" *ngIf="actividadCompletada" style="width: 200px; height: 200px; background-color: blueviolet;"></div> -->
+  
+
+
+  

@@ -1,0 +1,56 @@
+{
+    "curso":"Level 8",
+    "unidad":"U1",
+    "leccion":"L 7-8",
+    "codigo":"l8u1l7y8",
+    "act1":[
+        "Birthday",
+        "Thanks",
+        "This",
+        "That",
+        "45",
+        "Those",
+        "Thanks",
+        "Then",
+        "Mother",
+        "This",
+        "30",
+        "Birthday",
+        "Both",
+        "Health"
+    ],
+    "act2":[
+        "Thanks to new technologies, the world is more connected",
+        "This is her smartphone",
+        "My birthday is on February 25th",
+        "My uncle is 30 years old",
+        "My mother answers her e-mails at night",
+        "Being on your phone all day isn't good for your health",
+        "Those pictures are really beautiful"
+    ],
+    "act3":[
+        "I need to buy some tickets online", 
+        "What for? My brother can help you",
+        "A festival. There will be thousands of people there",
+        "You should post another picture. This one is pretty",
+        "Thanks. Listen! I like this song",
+        "It has good rhythm"
+    ],
+    "act4":"Mary and Dorothy were best friends. Their birthdays were on the same day, and they always celebrated that day together. They both liked the same music, and always posted pictures online. Everybody thought they were sisters.",
+    "act5":[
+        "Then",
+        "Mother",
+        "This",
+        "30",
+        "Birthday",
+        "Both",
+        "Thanks to new technologies, the world is more connected",
+        "This is her smartphone",
+        "My birthday is on february 25th",
+        "Being on your phone all day isn't good for your health",
+        "There will be thousands of people there",
+        "My brother can help you",
+        "It has good rhythm",
+        "I want to visit the north of the country"
+    ]
+}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LeccionesService } from "../shared/services/lecciones.service";
 import { DatosService, DatosUsuario } from "../shared/services/datos.service";
 import { Router } from "@angular/router";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'app-home',
@@ -41,7 +42,8 @@ export class HomeComponent implements OnInit {
 
   constructor(private leccionesService:LeccionesService,
               private datosService:DatosService,
-              private router:Router) { 
+              private router:Router,
+              private http:HttpClient) { 
                 localStorage.setItem("actividad1completada", "false");
                 localStorage.setItem("actividad2completada", "false");
                 localStorage.setItem("actividad3completada", "false");
@@ -54,6 +56,9 @@ export class HomeComponent implements OnInit {
     this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
       this.datos = res;  
       console.log("Estos son los datos " + this.datos.nombre);
+    });
+    this.http.get('https://plataforma.zn.ela.cl/claroline/inc/claro_init_global.inc.php').subscribe((response)=>{
+      console.log(response);
     });
   }
 

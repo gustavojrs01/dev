@@ -53,13 +53,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
-      this.datos = res;  
-      console.log("Estos son los datos " + this.datos.nombre);
-    });
-    this.http.get('https://plataforma.zn.ela.cl/claroline/inc/claro_init_global.inc.php').subscribe((response)=>{
-      console.log(response);
-    });
+    // this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
+    //   this.datos = res;  
+    //   console.log("Estos son los datos " + this.datos.nombre);
+    // });
+    // this.http.get('https://plataforma.zn.ela.cl/angularTest/refresh.php').subscribe((response)=>{
+    //   console.log(response);
+    // });
   }
 
   showL1(){

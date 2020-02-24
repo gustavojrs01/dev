@@ -51,10 +51,10 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
-      this.datos = res;  
-      console.log("Estos son los datos " + this.datos.nombre);
-    });
+    // this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
+    //   this.datos = res;  
+    //   console.log("Estos son los datos " + this.datos.nombre);
+    // });
   }
 
   showL1(){

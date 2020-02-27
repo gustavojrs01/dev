@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
               }
 
   ngOnInit() {
-
+      this.username = localStorage.getItem('VrUser');
     // this.datosService.getData(this.username).subscribe((res:DatosUsuario)=>{
     //   this.datos = res;  
     //   console.log("Estos son los datos " + this.datos.nombre);
